@@ -1,0 +1,37 @@
+{
+  "api": {
+    "circleCI": {
+      "token": "CIRCLECI_TOKEN_GUID"
+    },
+    "github": {
+      "token": "GITHUB_TOKEN_GUID"
+    }
+  },
+  "gitlab": {
+    "baseUrl": "",
+    "saveCache": true,
+    "projectFormat": "group-name/{project:alpha}",
+    "ticketsInBody": false
+  },
+  "circleCI": {
+    "environments": {
+      "staging": "staging_deploy",
+      "production": "production_deploy"
+    },
+    "baseUrl": "https://circleci.com/api/v1.1/project/github"
+  },
+  "projects": [
+    {
+      "org": "facebook",
+      "project": "react",
+      "type": "library",
+      "git": {
+        "type": "github",
+        "baseUrl": "https://github.com/{org}/{project}",
+        "commitUrl": "https://github.com/{org}/{project}/{commit}",
+        "compareUrl": "https://github.com/{org}/{project}/compare/{previous}/{next}"
+      },
+      "promotions": ["staging", "production"]
+    }
+  ]
+}

@@ -1,0 +1,129 @@
+scalar Date
+
+# FIXME Deprecated?
+enum PromotionEnvironment {
+  ci
+  staging
+  production
+}
+
+enum TicketStatus {
+  develop
+  review
+  ready
+  complete
+  open
+  closed
+}
+
+enum BuildResult {
+  success
+  pending
+  failure
+}
+
+type Build {
+  id: ID!
+  result: BuildResult
+}
+
+type Merge {
+  mergeId: ID!
+  releaseId: String
+}
+
+type ShortRelease {
+  releaseId: ID!
+}
+
+type Ticket {
+  id: ID!
+  title: String
+  status: TicketStatus # Enum
+  link: String # URL
+  merges: [Merge]
+  #     """
+  #     merges: {
+  #         "23": {releaseId: 23},
+  #         "11": {releaseId: 16}
+  #     },
+  #     """
+  promotions: [Promotion]
+  releases: [Int]
+  releaseIndexes: [Int]
+  updates: [ShortRelease]
+}
+
+type Promotion {
+  # id: ID!
+  buildId: Int
+  env: String # PromotionEnvironment
+  rough: Boolean # FIXME - "status vs rough?
+  status: BuildResult
+  timestamp: Date
+  url: String
+}
+
+type Release {
+  id: ID!
+  ids: [Int]
+  date: Date
+  builds: [Build]
+  #          updates: [Update]
+}
+
+type Commit {
+  sha: String!
+  message: String!
+  date: Date!
+  url: String
+  commits: [GitObject]
+  promotions: [Promotion]
+  tickets: [Ticket]
+}
+
+type GitObject {
+  sha: String!
+  author: GitUser
+  committer: GitUser
+  message: String
+}
+
+type GitUser {
+  date: Date
+  name: String
+  email: String
+}
+
+type Status {
+  project: String! # project
+  commits: [Commit]
+}
+
+# FIXME - What is this
+enum GitTypes {
+  github
+  gitlab
+}
+
+type GitConfig {
+  baseUrl: String
+  commitUrl: String
+  compareUrl: String
+  type: GitTypes
+}
+
+type Config {
+  org: String
+  project: String! # project
+  type: String
+  git: GitConfig
+  promotions: [String]
+}
+
+# the schema allows the following query:
+type Query {
+  status(org: String, project: String): Status
+  config(org: String, project: String): Config
+  list: [Config]
+}

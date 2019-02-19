@@ -1,0 +1,8 @@
+{
+  "schemaPath": "src/graphql/typedefs.graphql",
+  "extensions": {
+      "endpoints": {
+        "dev": "http://ticket-status.local.courts.io:8001/graphql"
+      }
+    }
+}
