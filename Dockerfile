@@ -1,4 +1,4 @@
-FROM node:9-alpine AS build
+FROM node:10-alpine AS build
 # install gyp tools
 RUN apk add --update --no-cache \
         python \
@@ -13,7 +13,7 @@ RUN npm install
 RUN npm prune --production
 
 
-FROM node:9-alpine
+FROM node:10-alpine
 RUN apk add --update --no-cache curl
 RUN apk add --no-cache bash
 ENV PORT=8001
