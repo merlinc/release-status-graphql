@@ -7,7 +7,7 @@ RUN apk add --update --no-cache \
 ADD . /src
 WORKDIR /src
 RUN npm install
-#RUN npm run lint
+RUN npm run lint
 #RUN npm run test
 #RUN npm run build
 RUN npm prune --production
