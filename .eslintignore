@@ -1,2 +1,4 @@
 archived
 src/services
+wallaby.conf.js
+coverage
