@@ -1,3 +1,4 @@
+service_name: travis-pro
 language: node_js
 
 cache: npm
@@ -6,6 +7,7 @@ install:
   - npm install
 
 script:
+<<<<<<< HEAD
   - npm test
 
 jobs:
@@ -18,7 +20,7 @@ jobs:
       script: npm run lint
     - script: npm run test:coverage
       name: 'Test'
-    - script: npm test:coverage
+    - script: jest --coverage && cat ./coverage/lcov.info | ./node_modules/coveralls/bin/coveralls.js && rm -rf ./coverage
       nme: 'Coverage'
 
     - stage: deploy
