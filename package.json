@@ -8,6 +8,9 @@
     "start:watch": "nodemon index.js",
     "test": "jest"
   },
+  "engines": {
+    "node": "10"
+  },
   "author": "",
   "license": "MIT",
   "dependencies": {
