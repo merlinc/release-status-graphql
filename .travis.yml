@@ -18,6 +18,8 @@ jobs:
       script: npm run lint
     - script: npm run test:coverage
       name: 'Test'
+    - script: npm test:coverage
+      nme: 'Coverage'
 
     - stage: deploy
       name: 'Deploy'
