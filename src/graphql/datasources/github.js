@@ -6,11 +6,8 @@ const { DataSource } = require('apollo-datasource');
 class GithubAPI extends DataSource {
   constructor() {
     super();
-    this.octokit = Octokit();
-
-    this.octokit.authenticate({
-      type: 'token',
-      token: config.get('api.github.token')
+    this.octokit = Octokit({
+      auth: `token ${config.get('api.github.token')}`
     });
   }
 
