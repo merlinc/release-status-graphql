@@ -10,7 +10,11 @@ const commit = require('./Commits/resolvers');
 // };
 
 const getCommits = async function getCommits({ org, project, dataSources }) {
-  const commits = await commit.getByProject(org, project);
+  const commits = await commit.getByProject(
+    org,
+    project,
+    dataSources.githubAPI
+  );
   return { org, project, dataSources, commits };
 };
 
@@ -99,7 +103,7 @@ const groupPromotions = function groupPromotions({
 /* Original loading order:
   // done => this.getBuilds(data, project, done),
   // done => this.getTickets(data, project, done);
-  // done => this.getBuildStatuses(data, project, done),
+    // done => this.getBuildStatuses(data, project, done),
   // done => this.getPromotions(data, project, done),
   // done => this.getBuildPromotions(data, project, done),
   // done => this.getRoughBuildPromotions(data, project, done),
@@ -126,5 +130,12 @@ const load = async function load(org, project, dataSources) {
 };
 
 module.exports = {
-  load
+  load,
+  getCommits,
+  mapCommits,
+  mapPromotions,
+  pullCommitIds,
+  getPromotions,
+  pullPromotionIds,
+  groupPromotions
 };

@@ -1,0 +1,120 @@
+{
+  "compare": "https://github.com/lorem/ipsum/compare/56cb2ab7fa77...8a2f6fc14fb8",
+  "previous_successful_build": {
+    "build_num": 5516,
+    "status": "success",
+    "build_time_millis": 180927
+  },
+  "build_parameters": {
+    "CIRCLE_JOB": "client_deploy_staging"
+  },
+  "oss": false,
+  "all_commit_details_truncated": false,
+  "committer_date": "2019-02-27T13:23:29Z",
+  "body": "",
+  "usage_queued_at": "2019-02-27T13:28:09.330Z",
+  "context_ids": [],
+  "fail_reason": null,
+  "retry_of": null,
+  "reponame": "ipsum",
+  "ssh_users": [],
+  "build_url": "https://circleci.com/gh/lorem/ipsum/5517",
+  "parallel": 1,
+  "failed": false,
+  "branch": "master",
+  "username": "lorem",
+  "author_date": "2019-02-27T13:23:29Z",
+  "why": "github",
+  "user": {
+    "is_user": true,
+    "login": "alansmithee",
+    "avatar_url": "https://avatars1.githubusercontent.com/u/1?v=4",
+    "name": "Alan Smithee",
+    "vcs_type": "github",
+    "id": 1
+  },
+  "vcs_revision": "8a2f6fc14fb8f6ecff68aa50f88be8867702b080",
+  "workflows": {
+    "job_name": "client_deploy_staging",
+    "job_id": "bb10b67f-135c-4c4b-bad4-32a16bf70170",
+    "workflow_id": "40bd81ed-1f27-40e6-9aec-1871b2282dd0",
+    "workspace_id": "40bd81ed-1f27-40e6-9aec-1871b2282dd0",
+    "upstream_job_ids": [
+      "26aabdae-1753-40ed-b55c-4eb65eca2270",
+      "2f0ffd41-5246-4f61-93d3-5673dabb96f0"
+    ],
+    "upstream_concurrency_map": {},
+    "workflow_name": "untagged_master"
+  },
+  "vcs_tag": null,
+  "build_num": 5517,
+  "infrastructure_fail": false,
+  "committer_email": "alan.smithee@example.com",
+  "has_artifacts": true,
+  "previous": {
+    "build_num": 5516,
+    "status": "success",
+    "build_time_millis": 180927
+  },
+  "status": "success",
+  "committer_name": "Alan Smithee",
+  "retries": null,
+  "subject": "Update all non-major dependencies (#76)",
+  "vcs_type": "github",
+  "timedout": false,
+  "dont_build": null,
+  "lifecycle": "finished",
+  "no_dependency_cache": false,
+  "stop_time": "2019-02-27T13:28:37.486Z",
+  "ssh_disabled": true,
+  "build_time_millis": 26730,
+  "picard": {
+    "build_agent": {
+      "image": "circleci/picard:1.0.7998-a7024de0",
+      "properties": {
+        "build_agent": "1.0.7998-a7024deb",
+        "executor": "docker"
+      }
+    },
+    "resource_class": {
+      "cpu": 2,
+      "ram": 4096,
+      "class": "medium"
+    },
+    "executor": "docker",
+    "used_features": ["remote-docker-engine"]
+  },
+  "circle_yml": {
+    "string": "echo 'secret'"
+  },
+  "messages": [],
+  "is_first_green_build": false,
+  "job_name": null,
+  "start_time": "2019-02-27T13:28:10.756Z",
+  "canceler": null,
+  "all_commit_details": [
+    {
+      "committer_date": "2019-02-27T13:23:29Z",
+      "body": "",
+      "branch": "master",
+      "author_date": "2019-02-27T13:23:29Z",
+      "committer_email": "alan.smithee@example.com",
+      "commit": "8a2f6fc14fb8f6ecff68aa50f88be8867702b080",
+      "committer_login": "alansmithee",
+      "committer_name": "Alan Smithee",
+      "subject": "Update all non-major dependencies (#76)",
+      "commit_url": "https://github.com/lorem/ipsum/commit/8a2f6fc14fb8f6ecff68aa50f88be8867702b080",
+      "author_login": "renovate[bot]",
+      "author_name": "renovate[bot]",
+      "author_email": "renovate[bot]@users.noreply.github.com"
+    }
+  ],
+  "platform": "2.0",
+  "outcome": "success",
+  "vcs_url": "https://github.com/lorem/ipsum",
+  "author_name": "renovate[bot]",
+  "node": null,
+  "queued_at": "2019-02-27T13:28:09.360Z",
+  "canceled": false,
+  "author_email": "renovate[bot]@users.noreply.github.com"
+}
