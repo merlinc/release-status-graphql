@@ -1,28 +1,6 @@
 const config = require('config');
 const _ = require('lodash');
-
-const transform = promotion => ({
-  // id: ID!
-  buildId: promotion.build_num,
-  env:
-    promotion.workflows && promotion.workflows.job_name
-      ? promotion.workflows.job_name
-      : '------',
-  rough: promotion.status !== 'success',
-  timestamp: promotion.start_time,
-  git_ref: promotion.vcs_revision,
-  git_subject: promotion.subject,
-  url: promotion.build_url
-});
-
-const compareFn = function compare(a, b) {
-  if (a.committer_date < b.committer_date) return 1;
-  if (a.committer_date > b.committer_date) return -1;
-  if (a.build_num < b.build_num) return 1;
-  if (a.build_num > b.build_num) return -1;
-
-  return 0;
-};
+const { compareFn, filterFn, transform } = require('./utils');
 
 const getProjectPromotions = ({ org, project }) => {
   const configObj = _.find(
@@ -57,19 +35,16 @@ const getByProject = async (org, project, circleCIAPI) => {
 
   const data = projects1.concat(projects2.concat(projects3.concat(projects4)));
 
+  // const data = projects1;
+  // console.log(JSON.stringify(data[0], null, 2));
+
   const projectPromotions = getProjectPromotions({ org, project });
 
-  return data
-    .filter(
-      thing =>
-        thing.workflows &&
-        thing.workflows.job_name &&
-        projectPromotions.includes(thing.workflows.job_name)
-    )
-    .sort(compareFn);
+  return data.filter(filterFn(projectPromotions)).sort(compareFn);
 };
 
 module.exports = {
   transform,
-  getByProject
+  getByProject,
+  compareFn
 };

@@ -1,0 +1,79 @@
+{
+  "sha": "8a2f6fc14fb8f6ecff68aa50f88be8867702b080",
+  "node_id": "MDY6Q29tbWl0MTM0NTg4NDMwOjhhMmY2ZmMxNGZiOGY2ZWNmZjY4YWE1MGY4OGJlODg2NzcwMmIwODk=",
+  "commit": {
+    "author": {
+      "name": "renovate[bot]",
+      "email": "renovate[bot]@users.noreply.github.com",
+      "date": "2019-02-27T13:23:29Z"
+    },
+    "committer": {
+      "name": "Alan Smithee",
+      "email": "alan.smithee@example.com",
+      "date": "2019-02-27T13:23:29Z"
+    },
+    "message": "Update all non-major dependencies (#76)",
+    "tree": {
+      "sha": "3c500f3d02f583ae1db8ab0c89b97e69f5648867",
+      "url": "https://api.github.com/repos/lorem/ipsum/git/trees/3c500f3d02f583ae1db8ab0c89b97e69f5648860"
+    },
+    "url": "https://api.github.com/repos/lorem/ipsum/git/commits/8a2f6fc14fb8f6ecff68aa50f88be8867702b080",
+    "comment_count": 0,
+    "verification": {
+      "verified": false,
+      "reason": "unsigned",
+      "signature": null,
+      "payload": null
+    }
+  },
+  "url": "https://api.github.com/repos/lorem/ipsum/commits/8a2f6fc14fb8f6ecff68aa50f88be8867702b080",
+  "html_url": "https://github.com/lorem/ipsum/commit/8a2f6fc14fb8f6ecff68aa50f88be8867702b080",
+  "comments_url": "https://api.github.com/repos/lorem/ipsum/commits/8a2f6fc14fb8f6ecff68aa50f88be8867702b080/comments",
+  "author": {
+    "login": "renovate[bot]",
+    "id": 29139614,
+    "node_id": "MDM6Qm90MjkxMzk2MTQ=",
+    "avatar_url": "https://avatars1.githubusercontent.com/in/2740?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/renovate%5Bbot%5D",
+    "html_url": "https://github.com/apps/renovate",
+    "followers_url": "https://api.github.com/users/renovate%5Bbot%5D/followers",
+    "following_url": "https://api.github.com/users/renovate%5Bbot%5D/following{/other_user}",
+    "gists_url": "https://api.github.com/users/renovate%5Bbot%5D/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/renovate%5Bbot%5D/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/renovate%5Bbot%5D/subscriptions",
+    "organizations_url": "https://api.github.com/users/renovate%5Bbot%5D/orgs",
+    "repos_url": "https://api.github.com/users/renovate%5Bbot%5D/repos",
+    "events_url": "https://api.github.com/users/renovate%5Bbot%5D/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/renovate%5Bbot%5D/received_events",
+    "type": "Bot",
+    "site_admin": false
+  },
+  "committer": {
+    "login": "alansmithee",
+    "id": 1,
+    "node_id": "MDQ6VXNlcjE=",
+    "avatar_url": "https://avatars1.githubusercontent.com/u/1?v=4",
+    "gravatar_id": "",
+    "url": "https://api.github.com/users/alansmithee",
+    "html_url": "https://github.com/alansmithee",
+    "followers_url": "https://api.github.com/users/alansmithee/followers",
+    "following_url": "https://api.github.com/users/alansmithee/following{/other_user}",
+    "gists_url": "https://api.github.com/users/alansmithee/gists{/gist_id}",
+    "starred_url": "https://api.github.com/users/alansmithee/starred{/owner}{/repo}",
+    "subscriptions_url": "https://api.github.com/users/alansmithee/subscriptions",
+    "organizations_url": "https://api.github.com/users/alansmithee/orgs",
+    "repos_url": "https://api.github.com/users/alansmithee/repos",
+    "events_url": "https://api.github.com/users/alansmithee/events{/privacy}",
+    "received_events_url": "https://api.github.com/users/alansmithee/received_events",
+    "type": "User",
+    "site_admin": false
+  },
+  "parents": [
+    {
+      "sha": "56cb2ab7fa77c97e0e84aa32f28333e0da2ecc80",
+      "url": "https://api.github.com/repos/lorem/ipsum/commits/56cb2ab7fa77c97e0e84aa32f28333e0da2ecc80",
+      "html_url": "https://github.com/lorem/ipsum/commit/56cb2ab7fa77c97e0e84aa32f28333e0da2ecc80"
+    }
+  ]
+}

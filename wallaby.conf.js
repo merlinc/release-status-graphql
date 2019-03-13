@@ -6,6 +6,7 @@ module.exports = wallaby => ({
     'src/**/*.js?(x)',
     '!src/**/*.spec.js',
     'src/**/*.graphql',
+    'mock/**/*.json',
     '!node_modules/**'
   ],
   tests: ['index.spec.js', 'src/**/*.spec.js', '!node_modules/**'],
