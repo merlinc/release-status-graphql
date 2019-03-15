@@ -1,5 +1,5 @@
-import { RESTDataSource } from 'apollo-datasource-rest';
+const { RESTDataSource } = require('apollo-datasource-rest');
 
 class BitBucketAPI extends RESTDataSource {}
 
-export default BitBucketAPI;
+module.exports = BitBucketAPI;

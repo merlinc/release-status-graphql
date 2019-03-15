@@ -1,5 +1,5 @@
-import { RESTDataSource } from 'apollo-datasource-rest';
+const { RESTDataSource } = require('apollo-datasource-rest');
 
 class JenkinsAPI extends RESTDataSource {}
 
-export default JenkinsAPI;
+module.exports = JenkinsAPI;
