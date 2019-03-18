@@ -6,7 +6,7 @@ jest.mock('config');
 describe('list-assembler', () => {
   describe('load', () => {
     beforeEach(() => {
-      config.get = jest.fn().mockReturnValueOnce([
+      config.get = jest.fn().mockReturnValue([
         {
           org: 'org',
           project: 'project',
@@ -24,7 +24,7 @@ describe('list-assembler', () => {
 
     it('should work', () => {
       const result = listAssembler.load();
-      expect(result).toBe(
+      expect(result).toEqual(
         expect.arrayContaining([
           {
             org: 'org',

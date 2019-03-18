@@ -24,7 +24,7 @@ describe('list-assembler', () => {
 
     it('should work', () => {
       const result = listAssembler.load('org', 'project');
-      expect(result).toBe(
+      expect(result).toEqual(
         expect.objectContaining({
           org: 'org',
           project: 'project',
