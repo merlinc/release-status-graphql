@@ -1,6 +1,6 @@
 const config = require('config');
 const _ = require('lodash');
-const { compareFn, filterFn, transform } = require('./utils');
+const { compareFn, filterFn } = require('./utils');
 
 const getProjectPromotions = ({ org, project }) => {
   const configObj = _.find(
@@ -9,6 +9,10 @@ const getProjectPromotions = ({ org, project }) => {
       // console.log(item);
       item.org === org && item.project === project
   );
+
+  if (!configObj || !configObj.promotions) {
+    return [];
+  }
 
   const { promotions } = configObj;
 
@@ -44,7 +48,6 @@ const getByProject = async (org, project, circleCIAPI) => {
 };
 
 module.exports = {
-  transform,
-  getByProject,
-  compareFn
+  getProjectPromotions,
+  getByProject
 };

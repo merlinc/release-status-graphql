@@ -2,8 +2,10 @@ const R = require('ramda');
 
 // const release = require('./Builds/resolvers');
 const promotion = require('./Promotions/resolvers');
+const promotionUtils = require('./Promotions/utils');
 // const ticket = require('./Tickets/resolvers');
 const commit = require('./Commits/resolvers');
+const gitUtils = require('./Commits/utils');
 
 // const debug = function debug(data) {
 //   console.log(Object.keys(data));
@@ -20,14 +22,14 @@ const getCommits = async function getCommits({ org, project, dataSources }) {
 
 const mapCommits = async function mapCommits({ commits, ...rest }) {
   return {
-    commits: commits.map(commit.mapGithubCommit),
+    commits: commits.map(gitUtils.mapGithubCommit),
     ...rest
   };
 };
 
 const mapPromotions = async function mapPromotions({ promotions, ...rest }) {
   return {
-    promotions: promotions.map(promotion.transform),
+    promotions: promotions.map(promotionUtils.transform),
     ...rest
   };
 };

@@ -1,72 +1,67 @@
-const jsonfile = require('jsonfile');
+const config = require('config');
 const resolvers = require('./resolvers');
 
+jest.mock('config');
+
 describe('Promotions resolvers', () => {
-  let release;
+  describe('getProjectPromotions', () => {
+    beforeEach(() => {
+      config.get = jest.fn().mockReturnValueOnce([
+        {
+          org: 'org',
+          project: 'project',
+          key: 'value',
+          promotions: ['staging', 'production']
+        },
+        {
+          org: 'org-other',
+          project: 'project-other',
+          key: 'value-other',
+          promotions: ['ci']
+        }
+      ]);
+    });
 
-  beforeEach(async () => {
-    release = await jsonfile.readFile('./mock/circleci/release.json');
-    // console.log(release);
-  });
-
-  describe('transform', () => {
-    it('should remap properties', () => {
-      const transformed = resolvers.transform(release);
-
-      expect(transformed).toEqual({
-        buildId: 5517,
-        env: 'client_deploy_staging',
-        rough: false,
-        timestamp: '2019-02-27T13:28:10.756Z',
-        git_ref: '8a2f6fc14fb8f6ecff68aa50f88be8867702b080',
-        git_subject: 'Update all non-major dependencies (#76)',
-        url: 'https://circleci.com/gh/lorem/ipsum/5517'
+    it.skip('should return project promotions from config', () => {
+      resolvers.getProjectPromotions({
+        org: 'org',
+        project: 'project'
       });
     });
-  });
 
-  describe('compareFn', () => {
-    it('should sort earlier committer_date as 1', () => {
-      expect(
-        resolvers.compareFn({ committer_date: 100 }, { committer_date: 101 })
-      ).toEqual(1);
+    it.skip('should return an empty array if value not found', () => {
+      resolvers.getProjectPromotions({
+        org: 'org-missing',
+        project: 'project-project-missing'
+      });
     });
 
-    it('should sort later commiter_date as -1', () => {
-      expect(
-        resolvers.compareFn({ committer_date: 100 }, { committer_date: 99 })
-      ).toEqual(-1);
-    });
-
-    it('should sort equal committer_date as 0', () => {
-      expect(
-        resolvers.compareFn({ committer_date: 100 }, { committer_date: 100 })
-      ).toEqual(0);
-    });
-
-    it('should sort lower build_num as 1', () => {
-      expect(
-        resolvers.compareFn({ build_num: 99 }, { build_num: 100 })
-      ).toEqual(1);
-    });
-    it('should sort higher build_num as -1', () => {
-      expect(
-        resolvers.compareFn({ build_num: 100 }, { build_num: 99 })
-      ).toEqual(-1);
-    });
-    it('should sort equal build_num as 0', () => {
-      expect(
-        resolvers.compareFn({ build_num: 100 }, { build_num: 100 })
-      ).toEqual(0);
-    });
-
-    it.skip('should prioritise committer_date over build_num', () => {});
-  });
-
-  describe('getProjectPromotions', () => {
-    it.skip('should return project promotions from config', () => {});
     it.skip('should return an empty array for no / invalid config', () => {});
   });
 
-  describe('getByProject', () => {});
+  describe('getByProject', async () => {
+    it('should do something', async () => {
+      const mockCircleCIAPI = {
+        getSomething: jest.fn()
+      };
+
+      mockCircleCIAPI.getSomething.mockReturnValue([]);
+
+      await resolvers.getByProject('org', 'project', mockCircleCIAPI);
+
+      expect(mockCircleCIAPI.getSomething).toHaveBeenCalledTimes(4);
+      expect(mockCircleCIAPI.getSomething.mock.calls[0]).toEqual([
+        { org: 'org', project: 'project' }
+      ]);
+      expect(mockCircleCIAPI.getSomething.mock.calls[1]).toEqual([
+        { org: 'org', project: 'project', offset: 100 }
+      ]);
+      expect(mockCircleCIAPI.getSomething.mock.calls[2]).toEqual([
+        { org: 'org', project: 'project', offset: 200 }
+      ]);
+      expect(mockCircleCIAPI.getSomething.mock.calls[3]).toEqual([
+        { org: 'org', project: 'project', offset: 300 }
+      ]);
+    });
+  });
 });

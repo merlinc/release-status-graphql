@@ -1,5 +1,5 @@
-import { RESTDataSource } from 'apollo-datasource-rest';
+const { RESTDataSource } = require('apollo-datasource-rest');
 
 class JiraAPI extends RESTDataSource {}
 
-export default JiraAPI;
+module.exports = JiraAPI;

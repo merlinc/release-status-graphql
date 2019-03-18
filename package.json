@@ -61,7 +61,8 @@
       "**/*.{js,jsx}",
       "!**/node_modules/**",
       "!coverage/**",
-      "!**/vendor/**"
+      "!**/vendor/**",
+      "!*.conf.js"
     ]
   }
 }
