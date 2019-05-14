@@ -39,7 +39,7 @@ describe('Promotions resolvers', () => {
     it.skip('should return an empty array for no / invalid config', () => {});
   });
 
-  describe('getByProject', async () => {
+  describe.skip('getByProject', async () => {
     it('should do something', async () => {
       const mockCircleCIAPI = {
         getSomething: jest.fn()

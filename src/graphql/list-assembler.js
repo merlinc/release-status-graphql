@@ -1,10 +1,11 @@
-const config = require('config');
+// const config = require('config');
 
 module.exports = {
-  load: () =>
-    config.get('projects').map(item => ({
+  load: config => {
+    return config.map(item => ({
       org: item.org,
       project: item.project,
       type: item.type
-    }))
+    }));
+  }
 };

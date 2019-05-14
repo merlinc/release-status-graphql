@@ -1,21 +1,27 @@
+const _ = require('lodash');
 const statusAssembler = require('./status-assembler');
 const configAssembler = require('./config-assembler');
 const listAssembler = require('./list-assembler');
+const confLib = require('../lib/conf');
 
 const resolvers = {
   Query: {
-    async status(root, {org, project}, {dataSources}) {
-      // logger.info(Object.keys(dataSources));
-
-      return statusAssembler.load(org, project, dataSources);
+    async status(root, { org, project }, { dataSources }) {
+      const conf = confLib.load(org, project);
+      const result = await statusAssembler.load({ dataSources, config: conf });
+      result.org = org;
+      result.project = project;
+      return _.omit(result, ['config']);
     },
 
     async list() {
-      return listAssembler.load();
+      const conf = confLib.list();
+      return listAssembler.load(conf);
     },
 
-    async config(parent, {org, project}) {
-      return configAssembler.load(org, project);
+    async config(parent, { org, project }) {
+      const conf = confLib.load(org, project);
+      return configAssembler.load(conf);
     }
   }
 };

@@ -7,31 +7,106 @@
       "token": "GITHUB_TOKEN_GUID"
     }
   },
-  "gitlab": {
-    "baseUrl": "",
-    "saveCache": true,
-    "projectFormat": "group-name/{project:alpha}",
-    "ticketsInBody": false
-  },
-  "circleCI": {
-    "environments": {
-      "staging": "staging_deploy",
-      "production": "production_deploy"
+  "defaults": {
+    "web": {
+      "type": "web"
     },
-    "baseUrl": "https://circleci.com/api/v1.1/project/github"
+    "library": {
+      "type": "library"
+    },
+    "github": {
+      "git": {
+        "type": "github",
+        "apiUrl": "https://api.github.com",
+        "baseUrl": "https://github.com/{org}/{project}",
+        "commitUrl": "https://github.com/{org}/{project}/{commit}",
+        "compareUrl": "https://github.com/{org}/{project}/compare/{previous}...{next}",
+        "auth": {
+          "token": "123abc"
+        }
+      }
+    },
+    "circleCI": {
+      "releases": {
+        "type": "circleci",
+        "baseUrl": "https://circleci.com/api/v1.1/project/github",
+        "link": "https://circleci.com/api/v1.1/project/github/${org}/${project}/${build_num}",
+        "auth": {
+          "token": "abc456"
+        }
+      },
+      "ticketInPRBody": {
+        "tickets": {
+          "type": "pr-body",
+          "searchString": "/**Ticket:** ch[0-9]+/"
+        }
+      },
+      "ticketBranch": {
+        "tickets": {
+          "type": "branch",
+          "searchString": "/ch[0-9]+/.*"
+        }
+      },
+      "ticketCommit": {
+        "tickets": {
+          "type": "commit",
+          "location": "title"
+        }
+      },
+      "ticketTrailer": {
+        "tickets": {
+          "type": "commit",
+          "location": "trailer"
+        }
+      },
+      "ticketIsPR": {
+        "tickets": {
+          "type": "pr-only"
+        }
+      }
+    }
   },
   "projects": [
     {
-      "org": "facebook",
-      "project": "react",
-      "type": "library",
-      "git": {
-        "type": "github",
-        "baseUrl": "https://github.com/{org}/{project}",
-        "commitUrl": "https://github.com/{org}/{project}/{commit}",
-        "compareUrl": "https://github.com/{org}/{project}/compare/{previous}/{next}"
+      "org": "merlinc",
+      "project": "release-status-graphql",
+      "extends": ["web", "travisCI", "ticketIsPR"]
+    },
+    {
+      "org": "merlinc",
+      "project": "release-status",
+      "extends": ["web", "travisCI", "ticketIsPR"]
+    },
+    {
+      "org": "tyrell-corp",
+      "project": "nexus",
+      "extends": ["web", "github", "circleCI", "ticketPR"],
+      "promotions": ["staging", "production"],
+      "teamsByUsername": {
+        "type:": "username",
+        "users": {
+          "deckard": "bladerunner",
+          "roy": "offworld",
+          "pris": "offworld",
+          "rachael": "headoffice"
+        }
       },
-      "promotions": ["staging", "production"]
+      "teamsByProject": {
+        "type": "project",
+        "groups": ["bladerunner", "offworld", "headoffice"]
+      },
+      "teamsByTicketPrefix": {
+        "type": "ticketPrefix",
+        "groups": ["BLADE", "OFF", "HEAD"]
+      },
+      "ticketStatus": [
+        "noticket",
+        "develop",
+        "test",
+        "review",
+        "ready",
+        "closed"
+      ]
     }
   ]
 }

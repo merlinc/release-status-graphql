@@ -14,7 +14,7 @@ describe('graphql resolvers', () => {
   });
 
   describe('status', () => {
-    it('should call statusAssembler', async () => {
+    it.skip('should call statusAssembler', async () => {
       const dataSources = {
         data: jest.fn()
       };

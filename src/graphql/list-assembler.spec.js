@@ -1,12 +1,9 @@
-const config = require('config');
 const listAssembler = require('./list-assembler');
-
-jest.mock('config');
 
 describe('list-assembler', () => {
   describe('load', () => {
-    beforeEach(() => {
-      config.get = jest.fn().mockReturnValue([
+    it('should work', () => {
+      const result = listAssembler.load([
         {
           org: 'org',
           project: 'project',
@@ -20,10 +17,6 @@ describe('list-assembler', () => {
           promotions: ['ci']
         }
       ]);
-    });
-
-    it('should work', () => {
-      const result = listAssembler.load();
       expect(result).toEqual(
         expect.arrayContaining([
           {

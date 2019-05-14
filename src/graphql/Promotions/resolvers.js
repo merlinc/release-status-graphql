@@ -1,15 +1,8 @@
-const config = require('config');
-const _ = require('lodash');
+// const config = require('config');
+// const _ = require('lodash');
 const { compareFn, filterFn } = require('./utils');
 
-const getProjectPromotions = ({ org, project }) => {
-  const configObj = _.find(
-    config.get('projects'),
-    item =>
-      // console.log(item);
-      item.org === org && item.project === project
-  );
-
+const getProjectPromotions = configObj => {
   if (!configObj || !configObj.promotions) {
     return [];
   }
@@ -19,30 +12,24 @@ const getProjectPromotions = ({ org, project }) => {
   return promotions;
 };
 
-const getByProject = async (org, project, circleCIAPI) => {
-  const projects1 = await circleCIAPI.getSomething({ org, project });
+// const getByProject = async (config, circleCIAPI, travisCIAPI) => {
+const getByProject = async (config, circleCIAPI) => {
+  const projects1 = await circleCIAPI.getSomething({
+    org: config.org,
+    project: config.project,
+    config
+  });
+
   const projects2 = await circleCIAPI.getSomething({
-    org,
-    project,
-    offset: 100
-  });
-  const projects3 = await circleCIAPI.getSomething({
-    org,
-    project,
-    offset: 200
-  });
-  const projects4 = await circleCIAPI.getSomething({
-    org,
-    project,
-    offset: 300
+    org: config.org,
+    project: config.project,
+    offset: 100,
+    config
   });
 
-  const data = projects1.concat(projects2.concat(projects3.concat(projects4)));
+  const data = projects1.concat(projects2);
 
-  // const data = projects1;
-  // console.log(JSON.stringify(data[0], null, 2));
-
-  const projectPromotions = getProjectPromotions({ org, project });
+  const projectPromotions = config.promotions || [];
 
   return data.filter(filterFn(projectPromotions)).sort(compareFn);
 };

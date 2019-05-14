@@ -1,5 +1,5 @@
 module.exports = {
   async getByProject(org, project, config, githubAPI) {
-    return githubAPI.getCommitsForProject({ org, project, config });
+    return githubAPI.getPullsForProject({ org, project, config });
   }
 };
