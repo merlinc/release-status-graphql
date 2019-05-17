@@ -1,23 +1,54 @@
 const R = require('ramda');
 
-// const release = require('./Builds/resolvers');
 const promotion = require('./Promotions/resolvers');
 const promotionUtils = require('./Promotions/utils');
-// const ticket = require('./Tickets/resolvers');
 const commit = require('./Commits/resolvers');
 const gitUtils = require('./Commits/utils');
+const pullRequests = require('./PullRequests/resolvers');
 
-// const debug = function debug(data) {
-//   console.log(Object.keys(data));
-// };
-
-const getCommits = async function getCommits({ org, project, dataSources }) {
+const getCommits = async function getCommits({ config, dataSources }) {
   const commits = await commit.getByProject(
-    org,
-    project,
+    config.org,
+    config.project,
+    config,
     dataSources.githubAPI
   );
-  return { org, project, dataSources, commits };
+  return { config, dataSources, commits };
+};
+
+const getPullRequests = async function getPullRequests({
+  config,
+  dataSources,
+  ...rest
+}) {
+  const prs = await pullRequests.getByProject(
+    config.org,
+    config.project,
+    config,
+    dataSources.githubAPI
+  );
+
+  return { config, dataSources, prs, ...rest };
+};
+
+const mapPullRequests = async function mapPullRequests({
+  prs,
+  commits,
+  ...rest
+}) {
+  const filteredPRs = prs.filter(pr => {
+    return commits.some(c => {
+      return c.sha === pr.merge_commit_sha;
+    });
+  });
+
+  const result = {
+    prs: filteredPRs,
+    commits,
+    ...rest
+  };
+
+  return result;
 };
 
 const mapCommits = async function mapCommits({ commits, ...rest }) {
@@ -45,21 +76,19 @@ const pullCommitIds = function pullCommitIds({ commits, ...rest }) {
 };
 
 const getPromotions = async function getPromotions({
-  org,
-  project,
+  config,
   ids,
   dataSources,
   ...rest
 }) {
   const promotions = await promotion.getByProject(
-    org,
-    project,
-    dataSources.circleCIAPI
+    config,
+    dataSources.circleCIAPI,
+    dataSources.travisCIAPI
   );
 
   return {
-    org,
-    project,
+    config,
     ids,
     promotions,
     ...rest
@@ -102,6 +131,27 @@ const groupPromotions = function groupPromotions({
   };
 };
 
+const groupTickets = function groupTickets({ prs, ...rest }) {
+  const tickets = prs.map(pr => {
+    return {
+      id: pr.number,
+      title: pr.title,
+      body: pr.body,
+      status: pr.state,
+      merges: [
+        {
+          mergeId: pr.merge_commit_sha
+        }
+      ]
+    };
+  });
+
+  return {
+    tickets,
+    ...rest
+  };
+};
+
 /* Original loading order:
   // done => this.getBuilds(data, project, done),
   // done => this.getTickets(data, project, done);
@@ -113,22 +163,17 @@ const groupPromotions = function groupPromotions({
   // done => this.mergeDuplicateTickets(data, done)
   */
 
-const load = async function load(org, project, dataSources) {
+const load = async function load({ dataSources, config }) {
   return R.pipeP(
     getCommits,
-    pullCommitIds,
+    getPullRequests,
+    mapPullRequests,
     getPromotions,
-    pullPromotionIds,
-
-    /*
-        getPullRequestsForCommits
-
-        */
-
     mapCommits,
     mapPromotions,
-    groupPromotions
-  )({ org, project, dataSources });
+    groupPromotions,
+    groupTickets
+  )({ dataSources, config });
 };
 
 module.exports = {

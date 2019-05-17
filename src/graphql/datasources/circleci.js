@@ -1,15 +1,12 @@
-const config = require('config');
+const configX = require('config');
 
 const { RESTDataSource } = require('apollo-datasource-rest');
+const { Headers } = require('apollo-server-env');
 
 class CircleCIAPI extends RESTDataSource {
-  get baseURL() {
-    return config.get('circleCI.baseUrl');
-  }
-
   willSendRequest(request) {
     const token = Buffer.from(
-      `${config.get('api.circleCI.token')}:`,
+      `${configX.get('api.circleCI.token')}:`,
       'ascii'
     ).toString('base64');
 
@@ -17,13 +14,25 @@ class CircleCIAPI extends RESTDataSource {
     request.headers.set('Accept', 'application/json');
   }
 
-  async getSomething({ org, project, offset = 0 }) {
-    const data = await this.get(`${org}/${project}/tree/master`, {
-      limit: 100,
-      filter: 'completed',
-      offset
-    });
-
+  async getSomething({ org, project, offset = 0, config }) {
+    const data = await this.get(
+      `${config.releases.baseUrl}/${org}/${project}/tree/master`,
+      {
+        limit: 100,
+        filter: 'completed',
+        offset
+      },
+      {
+        headers: new Headers({
+          Accept: 'application/json',
+          Authorization: `Basic ${config.releases.auth.token}:`
+        }),
+        HEADERS: {
+          Accept: 'application/json',
+          Authorization: `Basic ${config.releases.auth.token}:`
+        }
+      }
+    );
     return data;
   }
 }

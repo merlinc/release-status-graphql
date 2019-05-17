@@ -29,7 +29,8 @@ type Build {
 
 type Merge {
   mergeId: ID!
-  releaseId: String
+  #  buildId: ID!
+  #  releaseId: String
 }
 
 type ShortRelease {
@@ -39,7 +40,7 @@ type ShortRelease {
 type Ticket {
   id: ID!
   title: String
-  status: TicketStatus # Enum
+  status: String
   link: String # URL
   merges: [Merge]
   #     """
@@ -48,10 +49,10 @@ type Ticket {
   #         "11": {releaseId: 16}
   #     },
   #     """
-  promotions: [Promotion]
-  releases: [Int]
-  releaseIndexes: [Int]
-  updates: [ShortRelease]
+  #  promotions: [Promotion]
+  #  releases: [Int]
+  #  releaseIndexes: [Int]
+  #  updates: [ShortRelease]
 }
 
 type Promotion {
@@ -79,7 +80,7 @@ type Commit {
   url: String
   commits: [GitObject]
   promotions: [Promotion]
-  tickets: [Ticket]
+  #  tickets: [Ticket]
 }
 
 type GitObject {
@@ -98,6 +99,7 @@ type GitUser {
 type Status {
   project: String! # project
   commits: [Commit]
+  tickets: [Ticket]
 }
 
 # FIXME - What is this

@@ -25,29 +25,19 @@ const resolvers = require('./src/graphql/resolvers');
 
 const CircleCIAPI = require('./src/graphql/datasources/circleci');
 const ClubhouseAPI = require('./src/graphql/datasources/clubhouse');
-const GithubAPI = require('./src/graphql/datasources/github');
+const GithubAPI = require('./src/graphql/datasources/github-cacheable');
+const TravisCIAPI = require('./src/graphql/datasources/travisci');
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources: () => ({
     circleCIAPI: new CircleCIAPI(),
+    travisCIAPI: new TravisCIAPI(),
     clubhouseAPI: new ClubhouseAPI(),
     githubAPI: new GithubAPI()
   }),
-  context: () => ({
-    token: 'foo'
-  })
-  // formatError: error => {
-  //   // console.log('Error:');
-  //   // console.log(error);
-  //   return error;
-  // },
-  // formatResponse: response => {
-  //   // console.log('Response:');
-  //   // console.log(response);
-  //   return response;
-  // }
+  tracing: true
 });
 
 server.listen({ port: 8001 }).then(({ url }) => {
