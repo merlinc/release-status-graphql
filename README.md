@@ -12,7 +12,7 @@ This particular repository is the GraphQL backend.
 
 ### Codescene
 
-[![](https://codescene.io/projects/4228/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/4228/jobs/latest-successful/results)
+[![](https://codescene.io/projects/4875/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/4875/jobs/latest-successful/results)
 
 ## Glossary
 
