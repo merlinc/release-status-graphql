@@ -1,35 +1,105 @@
+const confLib = require('../lib/conf');
 const resolvers = require('./resolvers');
 
-const statusAssembler = require('./status-assembler');
-// const configAssembler = require('./config-assembler');
-// const listAssembler = require('./list-assembler');
+jest.mock('../lib/conf');
 
-jest.mock('./status-assembler');
-// jest.mock('./config-assembler');
-// jest.mock('./list-assembler');
+describe('resolvers', () => {
+  describe('Query', () => {
+    describe('status', () => {
+      let configData;
+      beforeEach(() => {
+        configData = {
+          projects: [
+            {
+              org: 'merlinc',
+              project: 'release-status-testbed',
+              type: 'web'
+            }
+          ]
+        };
 
-describe('graphql resolvers', () => {
-  it('should have a Query', () => {
-    expect(resolvers.Query).toBeDefined();
-  });
+        confLib.load = jest.fn().mockReturnValueOnce(configData);
+      });
 
-  describe('status', () => {
-    it.skip('should call statusAssembler', async () => {
-      const dataSources = {
-        data: jest.fn()
-      };
+      it('should return org and project', async () => {
+        const result = await resolvers.Query.status(
+          {},
+          { org: 'lorem', project: 'ipsum' },
+          {}
+        );
 
-      await resolvers.Query.status(
-        'root',
-        { org: 'org', project: 'project' },
-        { dataSources }
-      );
+        expect(result.org).toEqual('lorem');
+        expect(result.project).toEqual('ipsum');
+      });
 
-      expect(statusAssembler.load).toHaveBeenCalledWith(
-        'org',
-        'project',
-        dataSources
-      );
+      it('should add org and project to context', async () => {
+        const context = {};
+
+        await resolvers.Query.status(
+          {},
+          { org: 'lorem', project: 'ipsum' },
+          context
+        );
+
+        expect(context.org).toEqual('lorem');
+        expect(context.project).toEqual('ipsum');
+      });
+
+      it('should add config to context', async () => {
+        const context = {};
+        await resolvers.Query.status(
+          {},
+          { org: 'lorem', project: 'ipsum' },
+          context
+        );
+
+        expect(context.config).toEqual(configData);
+      });
+    });
+
+    describe('list', () => {
+      let configListData;
+      beforeEach(() => {
+        configListData = [
+          {
+            org: 'merlinc',
+            project: 'release-status-testbed',
+            type: 'web',
+            extends: ['github']
+          },
+          {
+            org: 'merlinc',
+            project: 'release-status-graphql',
+            type: 'web',
+            extends: ['github']
+          }
+        ];
+
+        confLib.list = jest.fn().mockReturnValueOnce(configListData);
+      });
+
+      it('should return all data', async () => {
+        const result = await resolvers.Query.list();
+
+        expect(result.length).toBe(2);
+      });
+
+      it('should transform data', async () => {
+        const result = await resolvers.Query.list();
+
+        expect(result).toEqual([
+          {
+            org: 'merlinc',
+            project: 'release-status-testbed',
+            type: 'web'
+          },
+          {
+            org: 'merlinc',
+            project: 'release-status-graphql',
+            type: 'web'
+          }
+        ]);
+      });
     });
   });
 });

@@ -97,7 +97,10 @@ type GitUser {
 }
 
 type Status {
+  org: String! # project
   project: String! # project
+  #  commits(org: String, project: String): [Commit]
+  #  tickets(org: String, project: String): [Ticket]
   commits: [Commit]
   tickets: [Ticket]
 }

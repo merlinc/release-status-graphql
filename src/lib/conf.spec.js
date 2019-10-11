@@ -22,12 +22,10 @@ describe('conf', () => {
 
   describe('find', () => {
     beforeEach(() => {
-      config.get = jest
-        .fn()
-        .mockReturnValueOnce([
-          { org: 'org', project: 'project' },
-          { org: 'lorem', project: 'ipsum' }
-        ]);
+      config.get = jest.fn().mockReturnValueOnce([
+        { org: 'org', project: 'project' },
+        { org: 'lorem', project: 'ipsum' }
+      ]);
     });
 
     it('should find projects by org and project', () => {
@@ -59,12 +57,10 @@ describe('conf', () => {
 
   describe('list', () => {
     it('should list simple data', () => {
-      config.get = jest
-        .fn()
-        .mockReturnValueOnce([
-          { org: 'org', project: 'project' },
-          { org: 'lorem', project: 'ipsum' }
-        ]);
+      config.get = jest.fn().mockReturnValueOnce([
+        { org: 'org', project: 'project' },
+        { org: 'lorem', project: 'ipsum' }
+      ]);
 
       const result = conf.list();
 
@@ -128,7 +124,7 @@ describe('conf', () => {
         }
       ]);
 
-      const result = conf.load('lorem', 'ipsum');
+      const result = conf.load({ org: 'lorem', project: 'ipsum' });
 
       expect(config.get).toBeCalledWith('projects');
       expect(config.has).toBeCalledWith('defaults');
@@ -143,14 +139,12 @@ describe('conf', () => {
 
   describe('load', () => {
     it('should load simple data', () => {
-      config.get = jest
-        .fn()
-        .mockReturnValueOnce([
-          { org: 'org', project: 'project' },
-          { org: 'lorem', project: 'ipsum' }
-        ]);
+      config.get = jest.fn().mockReturnValueOnce([
+        { org: 'org', project: 'project' },
+        { org: 'lorem', project: 'ipsum' }
+      ]);
 
-      const result = conf.load('lorem', 'ipsum');
+      const result = conf.load({ org: 'lorem', project: 'ipsum' });
 
       expect(config.get).toBeCalledWith('projects');
       expect(result).toEqual({
@@ -167,7 +161,7 @@ describe('conf', () => {
       config.has.mockReturnValueOnce(true);
       config.get.mockReturnValueOnce(fullConfig.defaults);
 
-      const result = conf.load('lorem', 'ipsum');
+      const result = conf.load({ org: 'lorem', project: 'ipsum' });
 
       expect(config.get).toBeCalledWith('projects');
       expect(config.has).toBeCalledWith('defaults');
@@ -209,7 +203,7 @@ describe('conf', () => {
         }
       ]);
 
-      const result = conf.load('lorem', 'ipsum');
+      const result = conf.load({ org: 'lorem', project: 'ipsum' });
 
       expect(config.get).toBeCalledWith('projects');
       expect(config.has).toBeCalledWith('defaults');

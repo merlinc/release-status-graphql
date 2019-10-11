@@ -17,27 +17,52 @@ made immutable as soon as any client uses the values via get().
 */
 
 const { ApolloServer, gql } = require('apollo-server');
+const {
+  GraphQLErrorTrackingExtension
+} = require('graphql-error-tracking-extension');
 
 const typeDefs = gql(
   fs.readFileSync(__dirname.concat('/src/graphql/typedefs.graphql'), 'utf8')
 );
+
 const resolvers = require('./src/graphql/resolvers');
 
-const CircleCIAPI = require('./src/graphql/datasources/circleci');
-const ClubhouseAPI = require('./src/graphql/datasources/clubhouse');
+// Fixme: On Startup, loop over all datasources defined in config
+// then create them - this will allow multiple circleci endpoints to be used
+
 const GithubAPI = require('./src/graphql/datasources/github-cacheable');
-const TravisCIAPI = require('./src/graphql/datasources/travisci');
+const CircleCIAPI = require('./src/graphql/datasources/circleci');
+// const ClubhouseAPI = require('./src/graphql/datasources/clubhouse');
+// const GitlabAPI = require('./src/graphql/datasources/gitlab');
+// const TravisCIAPI = require('./src/graphql/datasources/travisci');
+
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
   dataSources: () => ({
     circleCIAPI: new CircleCIAPI(),
-    travisCIAPI: new TravisCIAPI(),
-    clubhouseAPI: new ClubhouseAPI(),
     githubAPI: new GithubAPI()
+    // travisCIAPI: new TravisCIAPI(),
+    // clubhouseAPI: new ClubhouseAPI(),
+    // gitlabAPI: new GitlabAPI()
   }),
-  tracing: true
+  extensions: [() => new GraphQLErrorTrackingExtension()],
+  tracing: true,
+  formatError: error => {
+    // console.log("Error:>");
+    // console.log(Object.keys(error));
+    // console.log(error.message, error.locations, error.path);
+    return error;
+  },
+  formatResponse: response => {
+    // console.log("Response:>");
+    // console.log(JSON.stringify(response, null, 2));
+    return response;
+  },
+  context: ({ req }) => ({
+    request: req
+  })
 });
 
 server.listen({ port: 8001 }).then(({ url }) => {
