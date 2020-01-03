@@ -1,3 +1,12 @@
+const { Polly } = require('@pollyjs/core');
+const NodeHttpAdapter = require('@pollyjs/adapter-node-http');
+const FSPersister = require('@pollyjs/persister-fs');
+
+// Register the node http adapter so its accessible by all future polly instances
+Polly.register(NodeHttpAdapter);
+// Register the fs persister so its accessible by all future polly instances
+Polly.register(FSPersister);
+
 const { createTestClient } = require('apollo-server-testing');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const gql = require('graphql-tag');
@@ -39,6 +48,32 @@ const GET_STATUS = gql`
 `;
 
 describe('Queries', () => {
+  let polly;
+  beforeEach(() => {
+    polly = new Polly('Basic Integration', {
+      adapters: ['node-http'],
+      persister: 'fs',
+      persisterOptions: {
+        fs: {
+          recordingsDir: '__recordings__'
+        }
+      }
+    });
+
+    const { server } = polly;
+    server.any().on('beforePersist', (req, recording) => {
+      // Don't save authorization headers
+      // eslint-disable-next-line no-param-reassign
+      recording.request.headers = recording.request.headers.filter(
+        ({ name }) => name !== 'authorization'
+      );
+    });
+  });
+
+  afterEach(async () => {
+    await polly.stop();
+  });
+
   it('fetches list of statuses', async () => {
     const server = createServer({
       context: () => ({ org: 'merlinc', project: 'release-status-testbed' })
@@ -49,6 +84,7 @@ describe('Queries', () => {
       query: GET_STATUS,
       variables: { org: 'merlinc', project: 'release-status-testbed' }
     });
+
     expect(res).toMatchSnapshot({
       extensions: expect.any(Object)
     });

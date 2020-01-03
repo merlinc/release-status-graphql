@@ -33,6 +33,9 @@
     "ramda": "0.26.1"
   },
   "devDependencies": {
+    "@pollyjs/adapter-node-http": "3.0.0",
+    "@pollyjs/core": "3.0.0",
+    "@pollyjs/persister-fs": "3.0.0",
     "apollo-server-testing": "2.9.15",
     "coveralls": "3.0.3",
     "eslint": "5.15.1",
