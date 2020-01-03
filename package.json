@@ -65,6 +65,9 @@
       "!coverage/**",
       "!**/vendor/**",
       "!*.conf.js"
+    ],
+    "testMatch": [
+      "**/?(*.)+(spec|test).[jt]s?(x)"
     ]
   }
 }
