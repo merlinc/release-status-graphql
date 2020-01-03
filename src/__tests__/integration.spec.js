@@ -64,6 +64,8 @@ describe('Queries', () => {
       query: GET_STATUS,
       variables: { org: 'merlinc', project: 'release-status-testbed' }
     });
-    expect(res).toMatchSnapshot();
+    expect(res).toMatchSnapshot({
+      extensions: expect.any(Object)
+    });
   });
 });
