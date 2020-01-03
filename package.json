@@ -48,7 +48,7 @@
     "jsonfile": "5.0.0",
     "nodemon": "1.18.10",
     "prettier": "1.16.4",
-    "pretty-quick": "1.10.0",
+    "pretty-quick": "1.11.1",
     "timekeeper": "2.2.0"
   },
   "husky": {
