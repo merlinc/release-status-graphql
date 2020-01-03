@@ -8,7 +8,8 @@
     "start:watch": "nodemon index.js",
     "lint": "eslint .",
     "test": "jest",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "test:integration": "jest src/__tests__/integration.spec.js"
   },
   "engines": {
     "node": "10"
