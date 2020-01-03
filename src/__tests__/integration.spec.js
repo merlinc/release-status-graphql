@@ -1,4 +1,5 @@
 const { createTestClient } = require('apollo-server-testing');
+// eslint-disable-next-line import/no-extraneous-dependencies
 const gql = require('graphql-tag');
 const createServer = require('./utils');
 
