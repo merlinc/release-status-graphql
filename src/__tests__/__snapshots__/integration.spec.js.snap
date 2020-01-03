@@ -1,0 +1,18 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Queries fetches list of statuses 1`] = `
+Object {
+  "data": Object {
+    "status": null,
+  },
+  "errors": Array [
+    [GraphQLError: Invalid response body while trying to fetch https://api.github.com/repos/merlinc/release-status-testbed/commits?sha=master: incorrect header check],
+  ],
+  "extensions": Any<Object>,
+  "http": Object {
+    "headers": Headers {
+      Symbol(map): Object {},
+    },
+  },
+}
+`;
