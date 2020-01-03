@@ -24,6 +24,10 @@ This particular repository is the GraphQL backend.
 
 [![](https://codescene.io/projects/4875/status.svg) Get more details at **codescene.io**.](https://codescene.io/projects/4875/jobs/latest-successful/results)
 
+### Coveralls
+
+[![Coverage Status](https://coveralls.io/repos/github/merlinc/release-status-graphql/badge.svg?branch=master)](https://coveralls.io/github/merlinc/release-status-graphql?branch=master)
+
 ## Glossary
 
 - Ticket - A story task representing work to do
