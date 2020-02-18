@@ -29,7 +29,7 @@
     "lodash": "4.17.15",
     "pino": "5.15.0",
     "pino-pretty": "3.5.0",
-    "ramda": "0.26.1"
+    "ramda": "0.27.0"
   },
   "devDependencies": {
     "apollo-server-testing": "2.9.15",
