@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  extends: ['airbnb', 'prettier'],
+  extends: ['airbnb-base', 'prettier'],
   plugins: ['jest', 'graphql', 'import'],
   env: {
     node: true,
@@ -9,13 +9,14 @@ module.exports = {
   },
   rules: {
     'graphql/template-strings': [
-        'error',
-        {
-            env: 'apollo'
-        }
+      'error',
+      {
+        env: 'apollo'
+      }
     ],
-    "class-methods-use-this": [
-      'error', {
+    'class-methods-use-this': [
+      'error',
+      {
         exceptMethods: ['baseURL', 'willSendRequest']
       }
     ]
