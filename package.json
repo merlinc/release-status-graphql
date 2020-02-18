@@ -17,9 +17,9 @@
   "license": "MIT",
   "dependencies": {
     "@octokit/rest": "16.43.1",
-    "apollo-datasource": "0.6.4",
-    "apollo-datasource-rest": "0.6.11",
-    "apollo-server": "2.9.15",
+    "apollo-datasource": "0.7.0",
+    "apollo-datasource-rest": "0.7.0",
+    "apollo-server": "2.10.1",
     "apollo-server-env": "2.4.3",
     "axios": "0.19.2",
     "config": "3.2.5",
@@ -32,7 +32,7 @@
     "ramda": "0.26.1"
   },
   "devDependencies": {
-    "apollo-server-testing": "2.9.15",
+    "apollo-server-testing": "2.10.1",
     "coveralls": "3.0.9",
     "eslint": "6.8.0",
     "eslint-config-airbnb": "18.0.1",
