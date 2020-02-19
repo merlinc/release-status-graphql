@@ -23,6 +23,8 @@
     "apollo-server-env": "2.4.3",
     "config": "3.2.5",
     "graphql": "14.6.0",
+    "graphql-error-tracking-extension": "0.1.0",
+    "graphql-extensions": "0.10.10",
     "lodash": "4.17.15",
     "ramda": "0.27.0"
   },

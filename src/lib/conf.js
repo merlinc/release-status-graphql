@@ -29,8 +29,8 @@ const merge = function merge(base, defaults) {
   return result;
 };
 
-const load = function load(org, project) {
-  const base = find(org, project);
+const load = function load({ org, project }) {
+  const base = find(String(org), project);
 
   if (!config.has('defaults')) {
     return base;

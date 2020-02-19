@@ -2,6 +2,7 @@ const configX = require('config');
 
 const { RESTDataSource } = require('apollo-datasource-rest');
 const { Headers } = require('apollo-server-env');
+const utils = require('../utils');
 
 class GithubAPI extends RESTDataSource {
   willSendRequest(request) {
@@ -33,7 +34,7 @@ class GithubAPI extends RESTDataSource {
       }
     );
 
-    return commits;
+    return commits.map(utils.mapGithubCommit);
   }
 
   async getPullsForProject({ org, project, config }) {
