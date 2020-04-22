@@ -20,6 +20,7 @@
     "apollo-datasource": "0.7.0",
     "apollo-datasource-rest": "0.7.0",
     "apollo-server": "2.10.1",
+    "apollo-server-cache-redis": "^1.1.6",
     "apollo-server-env": "2.4.3",
     "config": "3.2.5",
     "graphql": "14.6.0",
