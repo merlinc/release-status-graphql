@@ -1,6 +1,8 @@
 const fs = require('fs');
 const { RedisCache } = require('apollo-server-cache-redis');
 
+const responseCachePlugin = require('apollo-server-plugin-response-cache');
+
 // bootstrap config
 // load config
 // load projects config
@@ -41,6 +43,7 @@ const CircleCIAPI = require('./src/graphql/datasources/circleci');
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  plugins: [responseCachePlugin()],
   cache: new RedisCache({
     host: 'localhost',
     // Options are passed through to the Redis client
