@@ -1,4 +1,9 @@
 {
+  "settings": {
+    "redis-host": "localhost",
+    "redis-port": "6379",
+    "port": "1234"
+  },
   "api": {
     "circleCI": {
       "token": "CIRCLECI_TOKEN_GUID"

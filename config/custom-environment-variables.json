@@ -1,0 +1,7 @@
+{
+  "settings": {
+    "redis-host": "REDIS_HOST",
+    "redis-port": "REDIS_PORT",
+    "port": "PORT"
+  }
+}

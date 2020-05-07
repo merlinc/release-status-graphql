@@ -3,6 +3,8 @@ const { RedisCache } = require('apollo-server-cache-redis');
 
 const responseCachePlugin = require('apollo-server-plugin-response-cache');
 
+const config = require('config');
+
 // bootstrap config
 // load config
 // load projects config
@@ -45,7 +47,7 @@ const server = new ApolloServer({
   resolvers,
   plugins: [responseCachePlugin()],
   cache: new RedisCache({
-    host: 'localhost',
+    host: config.settings["redis-host"],
     // Options are passed through to the Redis client
   }),
   dataSources: () => ({
@@ -73,7 +75,7 @@ const server = new ApolloServer({
   })
 });
 
-server.listen({ port: 9900 }).then(({ url }) => {
+server.listen({ port: config.settings.port }).then(({ url }) => {
   // eslint-disable-next-line no-console
   console.log(`✨ Server ready at ${url}`);
 });
