@@ -16,7 +16,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@octokit/rest": "16.43.1",
+    "@octokit/rest": "17.9.3",
     "apollo-datasource": "0.7.0",
     "apollo-datasource-rest": "0.7.0",
     "apollo-server": "2.10.1",
