@@ -6,6 +6,9 @@ const responseCachePlugin = require('apollo-server-plugin-response-cache');
 const config = require('config');
 
 // bootstrap config
+// const config = require('config');
+// const datasourcesLib = require('./src/lib/datasources');
+// const ds = datasourcesLib.loadDatasources({config});
 // load config
 // load projects config
 
