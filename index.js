@@ -23,7 +23,7 @@ made immutable as soon as any client uses the values via get().
 
 const { ApolloServer, gql } = require('apollo-server');
 const {
-  GraphQLErrorTrackingExtension
+  GraphQLErrorTrackingExtension,
 } = require('graphql-error-tracking-extension');
 
 const typeDefs = gql(
@@ -46,12 +46,12 @@ const server = new ApolloServer({
   resolvers,
   plugins: [responseCachePlugin()],
   cache: new RedisCache({
-    host: config.settings['redis-host']
+    host: config.settings['redis-host'],
     // Options are passed through to the Redis client
   }),
   dataSources: () => ({
     circleCIAPI: new CircleCIAPI(),
-    githubAPI: new GithubAPI()
+    githubAPI: new GithubAPI(),
     // travisCIAPI: new TravisCIAPI(),
     // clubhouseAPI: new ClubhouseAPI(),
     // gitlabAPI: new GitlabAPI()
@@ -70,8 +70,8 @@ const server = new ApolloServer({
     return response;
   },
   context: ({ req }) => ({
-    request: req
-  })
+    request: req,
+  }),
 });
 
 server.listen({ port: config.settings.port }).then(({ url }) => {

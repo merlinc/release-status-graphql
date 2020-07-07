@@ -6,10 +6,7 @@ const mapGithubCommit = R.converge(R.merge, [
   R.pick(['sha', 'url']),
   // I guess this should be a function that works on a GitCommit to return message, committer/date and tree/sha
   // or maybe tree/sha isgit p parents?
-  R.pipe(
-    R.view(commitMessageLens),
-    R.objOf('message')
-  )
+  R.pipe(R.view(commitMessageLens), R.objOf('message')),
 ]);
 
 const compareFn = function compare(a, b) {
@@ -37,7 +34,7 @@ const transform = promotion => ({
   timestamp: promotion.start_time,
   git_ref: promotion.vcs_revision,
   git_subject: promotion.subject,
-  url: promotion.build_url
+  url: promotion.build_url,
 });
 
 module.exports = {
@@ -45,5 +42,5 @@ module.exports = {
   filterFn,
   transform,
   commitMessageLens,
-  mapGithubCommit
+  mapGithubCommit,
 };

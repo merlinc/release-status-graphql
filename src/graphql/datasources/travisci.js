@@ -18,7 +18,7 @@ class TravisCIAPI extends RESTDataSource {
 
   async getBuildsForMaster({ org, project }) {
     const data = await this.get(`/repo/${org}%2F${project}/builds`, {
-      'branch.name': 'master'
+      'branch.name': 'master',
     });
 
     return data;

@@ -13,9 +13,9 @@ describe('resolvers', () => {
             {
               org: 'merlinc',
               project: 'release-status-testing',
-              type: 'web'
-            }
-          ]
+              type: 'web',
+            },
+          ],
         };
 
         confLib.load = jest.fn().mockReturnValueOnce(configData);
@@ -65,14 +65,14 @@ describe('resolvers', () => {
             org: 'merlinc',
             project: 'release-status-testing',
             type: 'web',
-            extends: ['github']
+            extends: ['github'],
           },
           {
             org: 'merlinc',
             project: 'release-status-graphql',
             type: 'web',
-            extends: ['github']
-          }
+            extends: ['github'],
+          },
         ];
 
         confLib.list = jest.fn().mockReturnValueOnce(configListData);
@@ -91,13 +91,13 @@ describe('resolvers', () => {
           {
             org: 'merlinc',
             project: 'release-status-testing',
-            type: 'web'
+            type: 'web',
           },
           {
             org: 'merlinc',
             project: 'release-status-graphql',
-            type: 'web'
-          }
+            type: 'web',
+          },
         ]);
       });
     });
@@ -108,7 +108,7 @@ describe('resolvers', () => {
         configItemData = {
           org: 'merlinc',
           project: 'release-status-testing',
-          type: 'web'
+          type: 'web',
         };
 
         confLib.load = jest.fn().mockReturnValueOnce(configItemData);

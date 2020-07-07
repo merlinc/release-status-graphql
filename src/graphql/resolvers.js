@@ -12,7 +12,7 @@ const resolvers = {
 
       return {
         org,
-        project
+        project,
       };
     },
 
@@ -21,20 +21,20 @@ const resolvers = {
       return conf.map(item => ({
         org: item.org,
         project: item.project,
-        type: item.type
+        type: item.type,
       }));
     },
 
     async config(parent, { org, project }) {
       return confLib.load({ org, project });
-    }
+    },
   },
   Status: {
     async commits(parent, _, { org, project, config, dataSources }) {
       const result = await dataSources.githubAPI.getCommitsForProject({
         org,
         project,
-        config
+        config,
       });
       return result;
     },
@@ -42,10 +42,10 @@ const resolvers = {
       const result = await dataSources.githubAPI.getPullsForProject({
         org,
         project,
-        config
+        config,
       });
       return result;
-    }
+    },
   },
 
   Commit: {
@@ -53,14 +53,14 @@ const resolvers = {
       const projects1 = await dataSources.circleCIAPI.getSomething({
         org: config.org,
         project: config.project,
-        config
+        config,
       });
 
       const projects2 = await dataSources.circleCIAPI.getSomething({
         org: config.org,
         project: config.project,
         offset: 100,
-        config
+        config,
       });
 
       const data = projects1.concat(projects2);
@@ -73,7 +73,7 @@ const resolvers = {
 
       const result = allPromotions.filter(p => p.vcs_revision === obj.sha);
       return result;
-    }
+    },
   },
 
   Promotion: {
@@ -97,7 +97,7 @@ const resolvers = {
 
     url(obj) {
       return obj.build_url;
-    }
+    },
   },
 
   Ticket: {
@@ -111,8 +111,8 @@ const resolvers = {
 
     merges(obj) {
       return [{ mergeId: obj.merge_commit_sha }];
-    }
-  }
+    },
+  },
 };
 
 module.exports = resolvers;

@@ -9,7 +9,7 @@ class GithubAPI extends DataSource {
     super();
     this.octokit = Octokit({
       log: console,
-      auth: `token ${config.get('api.github.token')}`
+      auth: `token ${config.get('api.github.token')}`,
     });
   }
 
@@ -17,7 +17,7 @@ class GithubAPI extends DataSource {
     const commits = await this.octokit.repos.listCommits({
       owner: org,
       repo: project,
-      sha: 'master'
+      sha: 'master',
     });
 
     return commits.data;
@@ -27,7 +27,7 @@ class GithubAPI extends DataSource {
     const pulls = await this.octokit.pulls.list({
       owner: org,
       repo: project,
-      state: 'closed'
+      state: 'closed',
     });
 
     return pulls.data;

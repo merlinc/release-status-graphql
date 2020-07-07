@@ -10,13 +10,13 @@ describe('conf', () => {
     fullConfig = {
       projects: [
         { org: 'org', project: 'project' },
-        { org: 'lorem', project: 'ipsum', extends: ['subType'] }
+        { org: 'lorem', project: 'ipsum', extends: ['subType'] },
       ],
       defaults: {
         subType: {
-          key: 'value'
-        }
-      }
+          key: 'value',
+        },
+      },
     };
   });
 
@@ -24,7 +24,7 @@ describe('conf', () => {
     beforeEach(() => {
       config.get = jest.fn().mockReturnValueOnce([
         { org: 'org', project: 'project' },
-        { org: 'lorem', project: 'ipsum' }
+        { org: 'lorem', project: 'ipsum' },
       ]);
     });
 
@@ -34,7 +34,7 @@ describe('conf', () => {
       expect(config.get).toBeCalledWith('projects');
       expect(result).toEqual({
         org: 'lorem',
-        project: 'ipsum'
+        project: 'ipsum',
       });
     });
 
@@ -59,7 +59,7 @@ describe('conf', () => {
     it('should list simple data', () => {
       config.get = jest.fn().mockReturnValueOnce([
         { org: 'org', project: 'project' },
-        { org: 'lorem', project: 'ipsum' }
+        { org: 'lorem', project: 'ipsum' },
       ]);
 
       const result = conf.list();
@@ -67,7 +67,7 @@ describe('conf', () => {
       expect(config.get).toBeCalledWith('projects');
       expect(result).toEqual([
         { org: 'org', project: 'project' },
-        { org: 'lorem', project: 'ipsum' }
+        { org: 'lorem', project: 'ipsum' },
       ]);
     });
 
@@ -91,8 +91,8 @@ describe('conf', () => {
           org: 'lorem',
           project: 'ipsum',
           extends: ['subType'],
-          key: 'value'
-        }
+          key: 'value',
+        },
       ]);
     });
 
@@ -100,13 +100,13 @@ describe('conf', () => {
       fullConfig = {
         projects: [
           { org: 'org', project: 'project' },
-          { org: 'lorem', project: 'ipsum', extends: ['invalidSubType'] }
+          { org: 'lorem', project: 'ipsum', extends: ['invalidSubType'] },
         ],
         defaults: {
           subType: {
-            key: 'value'
-          }
-        }
+            key: 'value',
+          },
+        },
       };
 
       config.get = jest.fn().mockReturnValueOnce(fullConfig.projects);
@@ -119,9 +119,9 @@ describe('conf', () => {
           project: 'ipsum',
           extends: ['invalidSubType'],
           subType: {
-            key: 'value'
-          }
-        }
+            key: 'value',
+          },
+        },
       ]);
 
       const result = conf.load({ org: 'lorem', project: 'ipsum' });
@@ -132,7 +132,7 @@ describe('conf', () => {
       expect(result).toEqual({
         org: 'lorem',
         project: 'ipsum',
-        extends: ['invalidSubType']
+        extends: ['invalidSubType'],
       });
     });
   });
@@ -141,7 +141,7 @@ describe('conf', () => {
     it('should load simple data', () => {
       config.get = jest.fn().mockReturnValueOnce([
         { org: 'org', project: 'project' },
-        { org: 'lorem', project: 'ipsum' }
+        { org: 'lorem', project: 'ipsum' },
       ]);
 
       const result = conf.load({ org: 'lorem', project: 'ipsum' });
@@ -149,7 +149,7 @@ describe('conf', () => {
       expect(config.get).toBeCalledWith('projects');
       expect(result).toEqual({
         org: 'lorem',
-        project: 'ipsum'
+        project: 'ipsum',
       });
     });
 
@@ -171,7 +171,7 @@ describe('conf', () => {
         org: 'lorem',
         project: 'ipsum',
         extends: ['subType'],
-        key: 'value'
+        key: 'value',
       });
     });
 
@@ -179,13 +179,13 @@ describe('conf', () => {
       fullConfig = {
         projects: [
           { org: 'org', project: 'project' },
-          { org: 'lorem', project: 'ipsum', extends: ['invalidSubType'] }
+          { org: 'lorem', project: 'ipsum', extends: ['invalidSubType'] },
         ],
         defaults: {
           subType: {
-            key: 'value'
-          }
-        }
+            key: 'value',
+          },
+        },
       };
 
       config.get = jest.fn().mockReturnValueOnce(fullConfig.projects);
@@ -198,9 +198,9 @@ describe('conf', () => {
           project: 'ipsum',
           extends: ['invalidSubType'],
           subType: {
-            key: 'value'
-          }
-        }
+            key: 'value',
+          },
+        },
       ]);
 
       const result = conf.load({ org: 'lorem', project: 'ipsum' });
@@ -211,7 +211,7 @@ describe('conf', () => {
       expect(result).toEqual({
         org: 'lorem',
         project: 'ipsum',
-        extends: ['invalidSubType']
+        extends: ['invalidSubType'],
       });
     });
   });
