@@ -7,19 +7,19 @@ module.exports = wallaby => ({
     '!src/**/*.spec.js',
     'src/**/*.graphql',
     'mock/**/*.json',
-    '!node_modules/**'
+    '!node_modules/**',
   ],
   tests: ['index.spec.js', 'src/**/*.spec.js', '!node_modules/**'],
   env: {
     type: 'node',
     runner: 'node',
-    NODE_ENV: 'test'
+    NODE_ENV: 'test',
   },
 
   compilers: {
-    '**/*.js': wallaby.compilers.babel()
+    '**/*.js': wallaby.compilers.babel(),
   },
 
   testFramework: 'jest',
-  debug: true
+  debug: true,
 });

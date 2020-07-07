@@ -20,22 +20,22 @@ class CircleCIAPI extends RESTDataSource {
       {
         limit: 100,
         filter: 'completed',
-        offset
+        offset,
       },
       {
         headers: new Headers({
           Accept: 'application/json',
-          Authorization: `Basic ${config.releases.auth.token}:`
+          Authorization: `Basic ${config.releases.auth.token}:`,
         }),
         HEADERS: {
           Accept: 'application/json',
-          Authorization: `Basic ${config.releases.auth.token}:`
+          Authorization: `Basic ${config.releases.auth.token}:`,
         },
         cacheOptions: {
-        ttl: 60
-      },
-      cacheKey: 'etag'
-    }
+          ttl: 60,
+        },
+        cacheKey: 'etag',
+      }
     );
     return data;
   }

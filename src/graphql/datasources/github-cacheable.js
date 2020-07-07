@@ -5,7 +5,6 @@ const { Headers } = require('apollo-server-env');
 const utils = require('../utils');
 
 class GithubAPI extends RESTDataSource {
-
   willSendRequest(request) {
     const token = Buffer.from(
       `${configX.get('api.github.token')}:`,
@@ -24,14 +23,14 @@ class GithubAPI extends RESTDataSource {
     const commits = await this.get(
       `${config.git.apiUrl}/repos/${org}/${project}/commits`,
       {
-        sha: 'master'
+        sha: 'master',
       },
       {
         headers,
         cacheOptions: {
-          ttl: 60
+          ttl: 60,
         },
-        cacheKey: 'etag'
+        cacheKey: 'etag',
       }
     );
 
@@ -49,14 +48,14 @@ class GithubAPI extends RESTDataSource {
         base: 'master',
         state: 'closed',
         sort: 'updated',
-        direction: 'desc'
+        direction: 'desc',
       },
       {
         headers,
         cacheOptions: {
-          ttl: 60
+          ttl: 60,
         },
-        cacheKey: 'etag'
+        cacheKey: 'etag',
       }
       // }
     );
