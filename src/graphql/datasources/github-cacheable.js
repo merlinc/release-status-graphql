@@ -6,11 +6,6 @@ const utils = require('../utils');
 
 class GithubAPI extends RESTDataSource {
 
-  // constructor(options) {
-  //   super();
-  //   this.db = db(options);
-  // }
-
   willSendRequest(request) {
     const token = Buffer.from(
       `${configX.get('api.github.token')}:`,
