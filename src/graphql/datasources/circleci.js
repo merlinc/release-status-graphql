@@ -30,8 +30,12 @@ class CircleCIAPI extends RESTDataSource {
         HEADERS: {
           Accept: 'application/json',
           Authorization: `Basic ${config.releases.auth.token}:`
-        }
-      }
+        },
+        cacheOptions: {
+        ttl: 60
+      },
+      cacheKey: 'etag'
+    }
     );
     return data;
   }

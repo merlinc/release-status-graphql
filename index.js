@@ -1,4 +1,9 @@
 const fs = require('fs');
+const { RedisCache } = require('apollo-server-cache-redis');
+
+const responseCachePlugin = require('apollo-server-plugin-response-cache');
+
+const config = require('config');
 
 // bootstrap config
 // load config
@@ -36,10 +41,14 @@ const CircleCIAPI = require('./src/graphql/datasources/circleci');
 // const GitlabAPI = require('./src/graphql/datasources/gitlab');
 // const TravisCIAPI = require('./src/graphql/datasources/travisci');
 
-
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  plugins: [responseCachePlugin()],
+  cache: new RedisCache({
+    host: config.settings['redis-host']
+    // Options are passed through to the Redis client
+  }),
   dataSources: () => ({
     circleCIAPI: new CircleCIAPI(),
     githubAPI: new GithubAPI()
@@ -65,7 +74,7 @@ const server = new ApolloServer({
   })
 });
 
-server.listen({ port: 8001 }).then(({ url }) => {
+server.listen({ port: config.settings.port }).then(({ url }) => {
   // eslint-disable-next-line no-console
   console.log(`✨ Server ready at ${url}`);
 });
