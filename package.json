@@ -23,7 +23,7 @@
     "apollo-server-cache-redis": "1.2.2",
     "apollo-server-env": "2.4.5",
     "apollo-server-plugin-response-cache": "0.5.3",
-    "config": "3.2.5",
+    "config": "3.3.1",
     "graphql": "15.3.0",
     "graphql-error-tracking-extension": "0.1.0",
     "graphql-extensions": "0.12.4",
