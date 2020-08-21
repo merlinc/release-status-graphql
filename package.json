@@ -44,7 +44,7 @@
     "jsonfile": "6.0.1",
     "nodemon": "2.0.4",
     "prettier": "2.0.5",
-    "pretty-quick": "2.0.1"
+    "pretty-quick": "2.0.2"
   },
   "husky": {
     "hooks": {
