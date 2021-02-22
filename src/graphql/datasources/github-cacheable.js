@@ -1,49 +1,40 @@
-const configX = require('config');
-
 const { RESTDataSource } = require('apollo-datasource-rest');
-const { Headers } = require('apollo-server-env');
-const utils = require('../utils');
 
 class GithubAPI extends RESTDataSource {
+  constructor({ name, auth, urls }) {
+    super();
+
+    this.auth = auth;
+    this.urls = urls;
+    this.name = name;
+  }
+
   willSendRequest(request) {
-    const token = Buffer.from(
-      `${configX.get('api.github.token')}:`,
-      'ascii'
-    ).toString('base64');
+    const token = Buffer.from(this.auth.token, 'ascii').toString('base64');
 
     request.headers.set('Authorization', `Basic ${token}`);
     request.headers.set('Accept', 'application/json');
   }
 
-  async getCommitsForProject({ org, project, config }) {
-    const headers = new Headers();
-    headers.set('Authorization', `Basic ${config.git.auth.token}:`);
-    headers.set('Accept', 'application/json');
-
+  async getCommitsForProject({ org, project }) {
     const commits = await this.get(
-      `${config.git.apiUrl}/repos/${org}/${project}/commits`,
+      `${this.urls.api}/repos/${org}/${project}/commits`,
       {
         sha: 'master',
       },
       {
-        headers,
         cacheOptions: {
           ttl: 60,
         },
         cacheKey: 'etag',
       }
     );
-
-    return commits.map(utils.mapGithubCommit);
+    return commits;
   }
 
-  async getPullsForProject({ org, project, config }) {
-    const headers = new Headers();
-    headers.set('Authorization', `Basic ${config.git.auth.token}:`);
-    headers.set('Accept', 'application/json');
-
+  async getPullsForProject({ org, project, commitSha }) {
     const pulls = await this.get(
-      `${config.git.apiUrl}/repos/${org}/${project}/pulls`,
+      `${this.urls.api}/repos/${org}/${project}/pulls`,
       {
         base: 'master',
         state: 'closed',
@@ -51,16 +42,14 @@ class GithubAPI extends RESTDataSource {
         direction: 'desc',
       },
       {
-        headers,
         cacheOptions: {
           ttl: 60,
         },
         cacheKey: 'etag',
       }
-      // }
     );
 
-    return pulls;
+    return pulls.filter(pull => pull.merge_commit_sha === commitSha);
   }
 }
 

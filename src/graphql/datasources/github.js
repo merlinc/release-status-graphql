@@ -23,6 +23,15 @@ class GithubAPI extends DataSource {
     return commits.data;
   }
 
+  async getTagsForProject({ org, project }) {
+    const tags = await this.octokit.repos.listTags({
+      owner: org,
+      repo: project,
+    });
+
+    return tags.data;
+  }
+
   async getPullsForProject({ org, project }) {
     const pulls = await this.octokit.pulls.list({
       owner: org,

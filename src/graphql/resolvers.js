@@ -1,5 +1,11 @@
-const confLib = require('../lib/conf');
-const utils = require('./utils');
+const { ApolloError } = require('apollo-server');
+const appConfig = require('config');
+
+const findDataSource = ({ name, dataSources }) => {
+  return dataSources.find(o => {
+    return o.name === name;
+  });
+};
 
 const resolvers = {
   Query: {
@@ -7,7 +13,21 @@ const resolvers = {
       /* eslint-disable no-param-reassign */
       context.org = org;
       context.project = project;
-      context.config = confLib.load({ org, project });
+
+      const projects = appConfig.get('projects');
+      const contextConfig = projects.find(projectConfig => {
+        if (projectConfig.org === org && projectConfig.project === project) {
+          return projectConfig;
+        }
+        return undefined;
+      });
+
+      if (!contextConfig) {
+        return null;
+      }
+
+      context.config = contextConfig;
+
       /* eslint-enable no-param-reassign */
 
       return {
@@ -17,8 +37,9 @@ const resolvers = {
     },
 
     async list() {
-      const conf = confLib.list();
-      return conf.map(item => ({
+      const projects = appConfig.get('projects');
+
+      return projects.map(item => ({
         org: item.org,
         project: item.project,
         type: item.type,
@@ -26,53 +47,109 @@ const resolvers = {
     },
 
     async config(parent, { org, project }) {
-      return confLib.load({ org, project });
+      const projects = appConfig.get('projects');
+      const contextConfig = projects.find(projectConfig => {
+        if (projectConfig.org === org && projectConfig.project === project) {
+          return projectConfig;
+        }
+        return undefined;
+      });
+
+      if (!contextConfig) {
+        return new ApolloError(`org: ${org} / project: ${project} not found`);
+      }
+
+      return contextConfig;
     },
   },
   Status: {
     async commits(parent, _, { org, project, config, dataSources }) {
-      const result = await dataSources.githubAPI.getCommitsForProject({
+      const dataSource = findDataSource({
+        name: config.scm.connection,
+        dataSources,
+      });
+      if (!dataSource) {
+        return null;
+      }
+
+      const result = await dataSource.getCommitsForProject({
         org,
         project,
         config,
       });
-      return result;
-    },
-    async tickets(parent, _, { org, project, config, dataSources }) {
-      const result = await dataSources.githubAPI.getPullsForProject({
-        org,
-        project,
-        config,
-      });
+
+      // console.log(result);
       return result;
     },
   },
 
   Commit: {
-    async promotions(obj, args, { config, dataSources }) {
-      const projects1 = await dataSources.circleCIAPI.getSomething({
+    message(parent) {
+      return parent.commit.message;
+    },
+
+    commitType(parent) {
+      if (parent.parents.length > 2) {
+        return 'octopus';
+      }
+
+      if (parent.parents.length > 1) {
+        return 'merge';
+      }
+
+      return 'single';
+    },
+
+    async promotions(commit, args, { config, dataSources }) {
+      const dataSource = findDataSource({
+        name: config.promotions.connection,
+        dataSources,
+      });
+      if (!dataSource) {
+        return null;
+      }
+
+      const projects1 = await dataSource.getDeployments({
         org: config.org,
         project: config.project,
         config,
+        commitSha: commit.sha,
       });
 
-      const projects2 = await dataSources.circleCIAPI.getSomething({
-        org: config.org,
-        project: config.project,
-        offset: 100,
+      return projects1;
+    },
+
+    async tickets(commit, args, { org, project, config, dataSources }) {
+      const { sha } = commit;
+
+      const dataSource = findDataSource({
+        name: config.tickets.connection,
+        dataSources,
+      });
+      if (!dataSources) {
+        return null;
+      }
+
+      const results = await dataSource.getPullsForProject({
+        org,
+        project,
         config,
+        commitSha: sha,
       });
 
-      const data = projects1.concat(projects2);
+      return results;
+    },
 
-      const projectPromotions = config.promotions || [];
+    commits(parent) {
+      // console.log(Object.keys(parent));
+      // console.log(Object.keys(parent.parents));
+      return parent.parents;
+    },
+  },
 
-      const allPromotions = data
-        .filter(utils.filterFn(projectPromotions))
-        .sort(utils.compareFn);
-
-      const result = allPromotions.filter(p => p.vcs_revision === obj.sha);
-      return result;
+  GitObject: {
+    message(obj) {
+      return obj.message;
     },
   },
 
@@ -101,16 +178,22 @@ const resolvers = {
   },
 
   Ticket: {
-    id(obj) {
-      return obj.number;
+    id(parent) {
+      return parent.number;
     },
 
-    status(obj) {
-      return obj.state;
+    status(parent) {
+      return parent.state;
     },
 
-    merges(obj) {
-      return [{ mergeId: obj.merge_commit_sha }];
+    title(parent) {
+      return parent.title;
+    },
+  },
+
+  Config: {
+    promotions(parent) {
+      return parent.promotions.jobs;
     },
   },
 };
