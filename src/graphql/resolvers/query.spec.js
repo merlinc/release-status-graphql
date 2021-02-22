@@ -1,7 +1,7 @@
 jest.mock('config');
 
 const appConfig = require('config');
-const resolvers = require('./resolvers');
+const queryResolver = require('./query');
 
 describe('resolvers', () => {
   describe('Query', () => {
@@ -21,7 +21,7 @@ describe('resolvers', () => {
       });
 
       it('should return org and project', async () => {
-        const result = await resolvers.Query.status(
+        const result = await queryResolver.status(
           {},
           { org: 'merlinc', project: 'release-status-testing' },
           {}
@@ -34,7 +34,7 @@ describe('resolvers', () => {
       it('should add org and project to context', async () => {
         const context = {};
 
-        await resolvers.Query.status(
+        await queryResolver.status(
           {},
           { org: 'merlinc', project: 'release-status-testing' },
           context
@@ -46,7 +46,7 @@ describe('resolvers', () => {
 
       it('should add config to context', async () => {
         const context = {};
-        await resolvers.Query.status(
+        await queryResolver.status(
           {},
           { org: 'merlinc', project: 'release-status-testing' },
           context
@@ -78,13 +78,13 @@ describe('resolvers', () => {
       });
 
       it('should return all data', async () => {
-        const result = await resolvers.Query.list();
+        const result = await queryResolver.list();
 
         expect(result.length).toBe(2);
       });
 
       it('should transform data', async () => {
-        const result = await resolvers.Query.list();
+        const result = await queryResolver.list();
 
         expect(result).toEqual([
           {
@@ -116,7 +116,7 @@ describe('resolvers', () => {
       });
 
       it('should return org and project', async () => {
-        const result = await resolvers.Query.status(
+        const result = await queryResolver.status(
           {},
           { org: 'merlinc', project: 'release-status-testing' },
           {}
@@ -124,70 +124,6 @@ describe('resolvers', () => {
 
         expect(result.org).toEqual('merlinc');
         expect(result.project).toEqual('release-status-testing');
-      });
-    });
-  });
-
-  describe('Promotion', () => {
-    describe('buildId', () => {
-      it('should return correctly', () => {
-        expect(resolvers.Promotion.buildId({ build_num: 100 })).toEqual(100);
-      });
-    });
-
-    describe('env', () => {
-      it('should return correctly if present', () => {
-        expect(
-          resolvers.Promotion.env({ workflows: { job_name: 'staging_deploy' } })
-        ).toEqual('staging_deploy');
-      });
-
-      it('should return dashed if not present', () => {
-        expect(resolvers.Promotion.env({})).toEqual('----');
-      });
-    });
-
-    describe('rough', () => {
-      it('should return correctly', () => {
-        expect(resolvers.Promotion.rough({ status: 'success' })).toBeFalsy();
-      });
-    });
-
-    describe('timestamp', () => {
-      it('should return correctly', () => {
-        expect(
-          resolvers.Promotion.timestamp({ start_time: '20200101' })
-        ).toEqual('20200101');
-      });
-    });
-
-    describe('url', () => {
-      it('should return correctly', () => {
-        expect(
-          resolvers.Promotion.url({ build_url: 'http://example.org' })
-        ).toEqual('http://example.org');
-      });
-    });
-  });
-
-  describe('Ticket', () => {
-    describe('id', () => {
-      it('should return correctly', () => {
-        expect(resolvers.Ticket.id({ number: 100 })).toEqual(100);
-      });
-    });
-
-    describe('status', () => {
-      it('should return correctly', () => {
-        expect(resolvers.Ticket.status({ state: 'ok' })).toEqual('ok');
-      });
-    });
-
-    describe('title', () => {
-      it('should return correctly', () => {
-        expect(resolvers.Ticket.title({ title: 'This is a title' })).toEqual(
-          'This is a title'
-        );
       });
     });
   });

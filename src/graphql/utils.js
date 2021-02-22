@@ -12,7 +12,14 @@ const filterFn = projectPromotions => thing =>
   thing.workflows.job_name &&
   projectPromotions.includes(thing.workflows.job_name);
 
+const findDataSource = ({ name, dataSources }) => {
+  return dataSources.find(o => {
+    return o.name === name;
+  });
+};
+
 module.exports = {
   compareFn,
   filterFn,
+  findDataSource,
 };
