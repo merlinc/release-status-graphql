@@ -12,7 +12,6 @@ module.exports = wallaby => ({
   tests: ['index.spec.js', 'src/**/*.spec.js', '!node_modules/**'],
   env: {
     type: 'node',
-    runner: 'node',
     NODE_ENV: 'test',
   },
 
