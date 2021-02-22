@@ -20,7 +20,6 @@ module.exports = {
     }
 
     context.config = contextConfig;
-
     /* eslint-enable no-param-reassign */
 
     return {

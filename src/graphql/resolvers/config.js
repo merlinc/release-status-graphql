@@ -1,5 +1,5 @@
 module.exports = {
-  promotions(parent) {
-    return parent.promotions.jobs;
+  promotions(config) {
+    return config.promotions.jobs;
   },
 };
