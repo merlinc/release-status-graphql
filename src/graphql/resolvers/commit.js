@@ -1,23 +1,23 @@
 const { findDataSource } = require('../utils');
 
 module.exports = {
-  message(parent) {
-    return parent.commit.message;
+  message(commit) {
+    return commit.commit.message;
   },
 
-  commitType(parent) {
-    if (parent.parents.length > 2) {
+  commitType(commit) {
+    if (commit.parents.length > 2) {
       return 'octopus';
     }
 
-    if (parent.parents.length > 1) {
+    if (commit.parents.length > 1) {
       return 'merge';
     }
 
     return 'single';
   },
 
-  async promotions(commit, args, { config, dataSources }) {
+  async promotions(commit, args, { config, dataSources } = {}) {
     const dataSource = findDataSource({
       name: config.promotions.connection,
       dataSources,
@@ -36,8 +36,11 @@ module.exports = {
     return projects1;
   },
 
-  async tickets(commit, args, { org, project, config, dataSources }) {
+  async tickets(commit, args, { org, project, config, dataSources } = {}) {
     const { sha } = commit;
+    if (!sha) {
+      return null;
+    }
 
     const dataSource = findDataSource({
       name: config.tickets.connection,
@@ -57,9 +60,7 @@ module.exports = {
     return results;
   },
 
-  commits(parent) {
-    // console.log(Object.keys(parent));
-    // console.log(Object.keys(parent.parents));
-    return parent.parents;
+  commits(commit) {
+    return commit.parents;
   },
 };

@@ -5,21 +5,23 @@ const ticketResolver = require('./ticket');
 describe('resolvers', () => {
   describe('Ticket', () => {
     describe('id', () => {
-      it('should return correctly', () => {
-        expect(ticketResolver.id({ number: 100 })).toEqual(100);
+      it('should return number', () => {
+        expect(ticketResolver.id({ number: 1234 })).toEqual(1234);
       });
     });
 
     describe('status', () => {
-      it('should return correctly', () => {
-        expect(ticketResolver.status({ state: 'ok' })).toEqual('ok');
+      it('should return state', () => {
+        expect(
+          ticketResolver.status({ number: 1234, state: 'in review' })
+        ).toEqual('in review');
       });
     });
 
     describe('title', () => {
-      it('should return correctly', () => {
-        expect(ticketResolver.title({ title: 'This is a title' })).toEqual(
-          'This is a title'
+      it('should return number', () => {
+        expect(ticketResolver.title({ title: 'Fix issues' })).toEqual(
+          'Fix issues'
         );
       });
     });

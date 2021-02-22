@@ -16,7 +16,6 @@ module.exports = {
       config,
     });
 
-    // console.log(result);
     return result;
   },
 };

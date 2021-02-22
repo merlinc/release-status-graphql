@@ -1,13 +1,13 @@
 module.exports = {
-  id(parent) {
-    return parent.number;
+  id(ticket) {
+    return ticket.number;
   },
 
-  status(parent) {
-    return parent.state;
+  status(ticket) {
+    return ticket.state;
   },
 
-  title(parent) {
-    return parent.title;
+  title(ticket) {
+    return ticket.title;
   },
 };
