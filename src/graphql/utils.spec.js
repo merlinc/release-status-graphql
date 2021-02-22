@@ -1,61 +1,6 @@
-const R = require('ramda');
-const jsonfile = require('jsonfile');
-
 const utils = require('./utils');
 
 describe('Commits utils', () => {
-  let commit;
-  beforeEach(() => {
-    commit = {
-      sha: 'abcde',
-      url: 'http://example.org',
-      commit: {
-        message: 'Lorem Ipsum',
-      },
-    };
-  });
-
-  describe('commitMessageLens', () => {
-    it('should pullout the message property', () => {
-      const result = R.view(utils.commitMessageLens)(commit);
-
-      expect(result).toEqual('Lorem Ipsum');
-    });
-  });
-
-  describe('mapGithubCommit', () => {
-    it('should map github commit', () => {
-      const result = utils.mapGithubCommit(commit);
-
-      expect(result).toEqual(
-        expect.objectContaining({
-          sha: 'abcde',
-          url: 'http://example.org',
-          message: 'Lorem Ipsum',
-        })
-      );
-    });
-  });
-});
-
-describe('Promotions utils', () => {
-  describe('transform', () => {
-    it('should remap properties', async () => {
-      const release = await jsonfile.readFile('./mock/circleci/release.json');
-      const transformed = utils.transform(release);
-
-      expect(transformed).toEqual({
-        buildId: 5517,
-        env: 'client_deploy_staging',
-        rough: false,
-        timestamp: '2019-02-27T13:28:10.756Z',
-        git_ref: '8a2f6fc14fb8f6ecff68aa50f88be8867702b080',
-        git_subject: 'Update all non-major dependencies (#76)',
-        url: 'https://circleci.com/gh/lorem/ipsum/5517',
-      });
-    });
-  });
-
   describe('compareFn', () => {
     it('should sort earlier committer_date as 1', () => {
       expect(

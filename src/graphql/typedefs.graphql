@@ -28,7 +28,7 @@ type Build {
 }
 
 type Merge {
-  mergeId: ID!
+  mergeId: ID
   #  buildId: ID!
   #  releaseId: String
 }
@@ -38,7 +38,7 @@ type ShortRelease {
 }
 
 type Ticket {
-  id: ID!
+  id: ID
   title: String
   status: String
   link: String # URL
@@ -76,11 +76,19 @@ type Release {
 type Commit {
   sha: String!
   message: String!
+  commitType: CommitType!
   date: Date!
   url: String
   commits: [GitObject]
   promotions: [Promotion]
-  #  tickets: [Ticket]
+  tickets: [Ticket]
+  # merge: simple, merge, octopus
+}
+
+enum CommitType {
+  single
+  merge
+  octopus
 }
 
 type GitObject {
@@ -102,7 +110,7 @@ type Status {
   #  commits(org: String, project: String): [Commit]
   #  tickets(org: String, project: String): [Ticket]
   commits: [Commit]
-  tickets: [Ticket]
+  #  tickets: [Ticket]
 }
 
 # FIXME - What is this

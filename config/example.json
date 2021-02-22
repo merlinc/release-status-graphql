@@ -2,116 +2,82 @@
   "settings": {
     "redis-host": "localhost",
     "redis-port": "6379",
-    "port": "1234"
+    "port": "9900"
   },
-  "api": {
-    "circleCI": {
-      "token": "CIRCLECI_TOKEN_GUID"
-    },
-    "github": {
-      "token": "GITHUB_TOKEN_GUID"
-    }
-  },
-  "defaults": {
-    "web": {
-      "type": "web"
-    },
-    "library": {
-      "type": "library"
-    },
-    "github": {
-      "git": {
-        "type": "github",
-        "apiUrl": "https://api.github.com",
-        "baseUrl": "https://github.com/{org}/{project}",
-        "commitUrl": "https://github.com/{org}/{project}/{commit}",
-        "compareUrl": "https://github.com/{org}/{project}/compare/{previous}...{next}",
-        "auth": {
-          "token": "123abc"
-        }
+  "connections": {
+    "circleci-public": {
+      "datasource": "circleci",
+      "auth": {
+        "token": "FACEFEED"
+      },
+      "urls": {
+        "base": "https://circleci.com/api/v1.1/project/github"
       }
     },
-    "circleCI": {
-      "releases": {
-        "type": "circleci",
-        "baseUrl": "https://circleci.com/api/v1.1/project/github",
-        "link": "https://circleci.com/api/v1.1/project/github/${org}/${project}/${build_num}",
-        "auth": {
-          "token": "abc456"
-        }
+    "github-public": {
+      "datasource": "github-cacheable",
+      "auth": {
+        "token": "ABADCAFE"
       },
-      "ticketInPRBody": {
-        "tickets": {
-          "type": "pr-body",
-          "searchString": "/**Ticket:** ch[0-9]+/"
-        }
-      },
-      "ticketBranch": {
-        "tickets": {
-          "type": "branch",
-          "searchString": "/ch[0-9]+/.*"
-        }
-      },
-      "ticketCommit": {
-        "tickets": {
-          "type": "commit",
-          "location": "title"
-        }
-      },
-      "ticketTrailer": {
-        "tickets": {
-          "type": "commit",
-          "location": "trailer"
-        }
-      },
-      "ticketIsPR": {
-        "tickets": {
-          "type": "pr-only"
-        }
+      "urls": {
+        "api": "https://api.github.com",
+        "web": "https://www.github.com"
       }
     }
   },
   "projects": [
     {
-      "org": "merlinc",
-      "project": "release-status-graphql",
-      "extends": ["web", "travisCI", "ticketIsPR"]
+      "org": "ministryofjustice",
+      "project": "hmpps-book-secure-move-frontend",
+      "scm": {
+        "connection": "github-public",
+        "paths": [
+          {
+            "branch": "master"
+          },
+          {
+            "tags": "v?.?.?"
+          }
+        ]
+      },
+      "promotions": {
+        "connection": "circleci-public",
+        "jobs": [
+          "deploy-staging",
+          "deploy-uat",
+          "deploy-preproduction",
+          "deploy-production"
+        ]
+      },
+      "issues": {
+        "connection": "jira-private",
+        "type": "pr-body",
+        "searchString": "(P4-\\d{0,4})"
+      }
     },
     {
       "org": "merlinc",
-      "project": "release-status",
-      "extends": ["web", "travisCI", "ticketIsPR"]
-    },
-    {
-      "org": "tyrell-corp",
-      "project": "nexus",
-      "extends": ["web", "github", "circleCI", "ticketPR"],
-      "promotions": ["staging", "production"],
-      "teamsByUsername": {
-        "type:": "username",
-        "users": {
-          "deckard": "bladerunner",
-          "roy": "offworld",
-          "pris": "offworld",
-          "rachael": "headoffice"
-        }
+      "project": "release-status-testbed",
+      "type": "library",
+      "scm": {
+        "connection": "github-public",
+        "paths": [
+          {
+            "branch": "master"
+          },
+          {
+            "tags": "v?.?.?"
+          }
+        ]
       },
-      "teamsByProject": {
-        "type": "project",
-        "groups": ["bladerunner", "offworld", "headoffice"]
+      "promotions": {
+        "connection": "circleci-public",
+        "jobs": ["build", "deploy_integration", "deploy_staging", "deploy_prod"]
       },
-      "teamsByTicketPrefix": {
-        "type": "ticketPrefix",
-        "groups": ["BLADE", "OFF", "HEAD"]
-      },
-      "ticketStatus": [
-        "noticket",
-        "develop",
-        "test",
-        "review",
-        "ready",
-        "closed"
-      ]
+      "issues": {
+        "style": "pr-only",
+        "connection": "github-public"
+      }
     }
   ]
 }

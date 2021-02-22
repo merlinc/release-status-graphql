@@ -1,7 +1,7 @@
-const confLib = require('../lib/conf');
-const resolvers = require('./resolvers');
+jest.mock('config');
 
-jest.mock('../lib/conf');
+const appConfig = require('config');
+const resolvers = require('./resolvers');
 
 describe('resolvers', () => {
   describe('Query', () => {
@@ -17,8 +17,7 @@ describe('resolvers', () => {
             },
           ],
         };
-
-        confLib.load = jest.fn().mockReturnValueOnce(configData);
+        appConfig.get = jest.fn().mockReturnValueOnce(configData.projects);
       });
 
       it('should return org and project', async () => {
@@ -53,7 +52,7 @@ describe('resolvers', () => {
           context
         );
 
-        expect(context.config).toEqual(configData);
+        expect(context.config).toEqual(configData.projects[0]);
       });
     });
 
@@ -75,7 +74,7 @@ describe('resolvers', () => {
           },
         ];
 
-        confLib.list = jest.fn().mockReturnValueOnce(configListData);
+        appConfig.get = jest.fn().mockReturnValueOnce(configListData);
       });
 
       it('should return all data', async () => {
@@ -105,13 +104,15 @@ describe('resolvers', () => {
     describe('config', () => {
       let configItemData;
       beforeEach(() => {
-        configItemData = {
-          org: 'merlinc',
-          project: 'release-status-testing',
-          type: 'web',
-        };
+        configItemData = [
+          {
+            org: 'merlinc',
+            project: 'release-status-testing',
+            type: 'web',
+          },
+        ];
 
-        confLib.load = jest.fn().mockReturnValueOnce(configItemData);
+        appConfig.get = jest.fn().mockReturnValueOnce(configItemData);
       });
 
       it('should return org and project', async () => {
@@ -180,13 +181,13 @@ describe('resolvers', () => {
       it('should return correctly', () => {
         expect(resolvers.Ticket.status({ state: 'ok' })).toEqual('ok');
       });
+    });
 
-      describe('merges', () => {
-        it('should return correctly', () => {
-          expect(
-            resolvers.Ticket.merges({ merge_commit_sha: 'abcdef' })
-          ).toEqual([{ mergeId: 'abcdef' }]);
-        });
+    describe('title', () => {
+      it('should return correctly', () => {
+        expect(resolvers.Ticket.title({ title: 'This is a title' })).toEqual(
+          'This is a title'
+        );
       });
     });
   });
