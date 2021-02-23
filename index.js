@@ -7,6 +7,7 @@ const { mapValues, has, reject, isNil } = require('lodash');
 
 const GithubAPI = require('./src/graphql/datasources/github-cacheable');
 const CircleCIAPI = require('./src/graphql/datasources/circleci');
+const TravisCIAPI = require('./src/graphql/datasources/travisci');
 
 const typeDefs = gql(
   fs.readFileSync(__dirname.concat('/src/graphql/typedefs.graphql'), 'utf8')
@@ -18,6 +19,7 @@ const resolvers = require('./src/graphql/resolvers');
 const datasourceMap = {
   circleci: CircleCIAPI,
   'github-cacheable': GithubAPI,
+  travisci: TravisCIAPI,
 };
 
 const datasources = reject(
