@@ -20,7 +20,7 @@
     "@octokit/rest": "18.2.0",
     "apollo-datasource": "0.7.3",
     "apollo-datasource-rest": "0.10.0",
-    "apollo-server": "2.21.0",
+    "apollo-server": "2.25.4",
     "apollo-server-cache-redis": "1.2.3",
     "apollo-server-env": "3.0.0",
     "apollo-server-plugin-response-cache": "0.6.0",
